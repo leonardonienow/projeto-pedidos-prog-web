@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import
+{
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
+import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
+import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
+import Pedido from './pages/pedido/index';
+import Pedidos from './pages/pedidos/index';
+import Produto from './pages/produto/index';
+import Produtos from './pages/produtos/index';
+import Erro from './pages/erro/index';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Routes from './routes/routes'
+import Header from './components/header/index'
+import UserProvider from './context/user';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class BootstrapNavbar extends React.Component
+{
+
+  render()
+  {
+    return (
+      <Router>
+        <UserProvider>
+          <Header />
+          <Routes />
+        </UserProvider>
+      </Router>
+    )
+  }
 }
 
-export default App;
+export default BootstrapNavbar;
