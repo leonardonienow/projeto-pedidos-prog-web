@@ -4,16 +4,10 @@ import
     BrowserRouter as Router,
     Switch,
     Route,
-    useParams,
 } from "react-router-dom";
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
-import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import Login from '../pages/login/index';
-import Pedido from '../pages/pedido/index';
 import Pedidos from '../pages/pedidos/index';
-import Produto from '../pages/produto/index';
 import Produtos from '../pages/produtos/index';
-import Erro from '../pages/erro/index';
 import PrivateRoute from './authenticated.route';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -23,10 +17,10 @@ class BootstrapNavbar extends React.Component
     {
         return (
             <Switch>
-                <Route path="/login"> <Login /> </Route>
-                <PrivateRoute exact path="/"> <Pedidos /> </PrivateRoute>
-                <PrivateRoute exact path="/pedidos"> <Pedidos /> </PrivateRoute>
-                <PrivateRoute exact path="/produtos"> <Produtos /> </PrivateRoute>
+                <Route exact path="/login" component={Login} />
+                <PrivateRoute exact path="/" component={Pedidos} />
+                <PrivateRoute exact path="/pedidos" component={Pedidos} />
+                <PrivateRoute exact path="/produtos" component={Produtos} />
             </Switch>
         )
     }

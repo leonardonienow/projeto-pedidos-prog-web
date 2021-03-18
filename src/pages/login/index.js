@@ -27,7 +27,7 @@ function App()
 
     const handleSubmit = () =>
     {
-        console.log('oi')
+        alert('authenticated')
         if (state.user == 'admin' && state.user == 'admin') {
             setUserAuthenticated();
             history.push('/pedidos');
