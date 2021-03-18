@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { BrowserRouter as Router } from "react-router-dom";
-import { Navbar, Nav, Form, Button } from 'react-bootstrap'
+import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Pedido from '../../pages/pedido/index';
 import Pedidos from '../../pages/pedidos/index';
@@ -12,18 +12,13 @@ import { UserContext } from '../../context/user';
 
 export const BootstrapNavbar = () =>
 {
-    const { authenticated, removeUserAuthenticated, setUserAuthenticated } = useContext(UserContext);
+    const { authenticated, removeUserAuthenticated } = useContext(UserContext);
     const history = useHistory();
 
     const handleLoginClick = () =>
     {
         removeUserAuthenticated();
         history.push('/login');
-    };
-    const handleLoginAAAClick = () =>
-    {
-        setUserAuthenticated();
-        history.push('/pedidos');
     };
 
     return (
@@ -44,9 +39,7 @@ export const BootstrapNavbar = () =>
                                 </Form>
                             </Navbar.Collapse>
                         ) : (
-                            <Form inline>
-                                <Button variant='dark' onClick={handleLoginAAAClick}>Entrar</Button>
-                            </Form>
+                            <div />
                         )}
                     </Navbar>
                 </Router>

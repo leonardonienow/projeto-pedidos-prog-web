@@ -6,6 +6,8 @@ import
   Route,
   useParams,
 } from "react-router-dom";
+import './index.css'
+
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import Pedido from './pages/pedido/index';
