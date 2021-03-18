@@ -26,7 +26,7 @@ export const BootstrapNavbar = () =>
             <div className="col-md-12">
                 <Router>
                     <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
-                        <Navbar.Brand>Trabalho sobre Pedidos teste</Navbar.Brand>
+                        <Navbar.Brand>Trabalho sobre Pedidos t</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         {authenticated ? (
                             <Navbar.Collapse id="basic-navbar-nav">
