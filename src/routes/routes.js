@@ -27,6 +27,7 @@ class BootstrapNavbar extends React.Component
                 <PrivateRoute path="/produtos"> <Produtos /> </PrivateRoute>
                 <Route path="/login"> <Login /> </Route>
                 <Route path="/"> <Login /> </Route>
+
             </Switch>
         )
     }
