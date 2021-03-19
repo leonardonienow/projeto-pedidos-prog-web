@@ -13,6 +13,7 @@ function App()
         user: '',
         password: '',
         passwordError: false
+
     });
 
     const { setUserAuthenticated } = useContext(UserContext);
