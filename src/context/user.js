@@ -16,7 +16,7 @@ export default ({ children }) =>
     const removeUserAuthenticated = useCallback(() =>
     {
         window.localStorage.removeItem('authenticated');
-        setAuthenticated(false);
+        setAuthenticated(null);
     }, []);
 
     const defaultValues = {

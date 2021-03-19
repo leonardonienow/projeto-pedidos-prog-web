@@ -27,8 +27,7 @@ function App()
 
     const handleSubmit = () =>
     {
-        alert('authenticated')
-        if (state.user == 'admin' && state.user == 'admin') {
+        if (state.user == 'admin' && state.password == 'admin') {
             setUserAuthenticated();
             history.push('/pedidos');
         } else if (false) {
@@ -40,7 +39,7 @@ function App()
 
     return (
         <Container>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} autoComplete="off">
                 <HeaderText>Login</HeaderText>
                 <Form.Group controlId="formBasicEmail">
                     <Text>Usuário</Text>
