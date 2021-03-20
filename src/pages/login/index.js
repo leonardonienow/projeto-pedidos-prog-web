@@ -9,15 +9,20 @@ import { UserContext } from '../../context/user';
 
 function App()
 {
+    const { setUserAuthenticated, authenticated } = useContext(UserContext);
+    const history = useHistory();
+
     const [state, setState] = React.useState({
         user: '',
         password: '',
-        passwordError: false
-
+        passwordError: false,
     });
 
-    const { setUserAuthenticated } = useContext(UserContext);
-    const history = useHistory();
+    React.useEffect(() =>
+    {
+        if (authenticated) history.replace('/');
+    }, [authenticated, history]);
+
 
     const handleOnChange = e =>
     {
@@ -26,15 +31,17 @@ function App()
         setState({ ...state, [name]: value });
     };
 
-    const handleSubmit = () =>
+    const handleSubmit = async e =>
     {
-        if (state.user == 'admin' && state.password == 'admin') {
+        e.preventDefault();
+
+        if (state.user.toLowerCase() == 'admin' && state.password.toLowerCase() == 'admin') {
             setUserAuthenticated();
             history.push('/pedidos');
         } else if (false) {
 
         } else {
-            setState({ ...state, [state.passwordError]: true });
+            setState({ ...state, ['passwordError']: true });
         }
     }
 
