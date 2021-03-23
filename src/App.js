@@ -6,7 +6,7 @@ import
   Route,
   useParams,
 } from "react-router-dom";
-import './index.css'
+import './App.css'
 
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap'
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,8 +28,10 @@ class BootstrapNavbar extends React.Component
     return (
       <Router>
         <UserProvider>
-          <Header />
-          <Routes />
+          <div className="containerGeral">
+            <Header />
+            <Routes />
+          </div>
         </UserProvider>
       </Router>
     )

@@ -9,6 +9,7 @@ import Produto from '../../pages/produto/index';
 import Produtos from '../../pages/produtos/index';
 import Erro from '../../pages/erro/index';
 import { UserContext } from '../../context/user';
+import './styles.css'
 
 export const BootstrapNavbar = () =>
 {
@@ -25,7 +26,7 @@ export const BootstrapNavbar = () =>
         <div className="row">
             <div className="col-md-12">
                 <Router>
-                    <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+                    <Navbar className="navbar-header" variant="dark" expand="lg" sticky="top">
                         <Navbar.Brand>Trabalho sobre Pedidos</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         {authenticated ? (
@@ -35,7 +36,7 @@ export const BootstrapNavbar = () =>
                                     <Nav.Link href="/produtos">Produtos</Nav.Link>
                                 </Nav>
                                 <Form inline>
-                                    <Button variant='dark' onClick={handleLoginClick}>Sair</Button>
+                                    <Button variant='dark' className="navbar-button" onClick={handleLoginClick}>Sair</Button>
                                 </Form>
                             </Navbar.Collapse>
                         ) : (
