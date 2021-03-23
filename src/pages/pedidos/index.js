@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { Table } from 'react-bootstrap';
+import { HeaderText, Divider } from './styles'
 
 function App()
 {
@@ -37,17 +39,26 @@ function App()
 
     return (
         <div>
-            {
-                listaPedidos.map((item) => (
-                    <>
-                        <span>{item.ped_numero}></span>
-                        <span>{item.usu_cpf}</span>
-                        <span>{item.ped_datahora}</span>
-                        <span>{item.ped_entregue}</span>
-                        <span>{item.ped_ativo}</span>
-                    </>
-                ))
-            }
+            <HeaderText>Pedidos</HeaderText>
+            <Divider />
+            <Table striped bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>CPF</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {listaPedidos.map((item) => (
+                        <tr>
+                            <td>{item.ped_numero}</td>
+                            <td>{item.usu_cpf}</td>
+                            <td>{item.ped_datahora}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
         </div>
     );
 }

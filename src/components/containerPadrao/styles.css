@@ -1,0 +1,10 @@
+.container {
+  /* flex: 1; */
+  max-width: 1000px;
+  /* height: 100vh; */
+  background-color: #fff;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* border-radius: 10px; */
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.3);
+}

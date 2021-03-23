@@ -19,6 +19,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Routes from './routes/routes'
 import Header from './components/header/index'
 import UserProvider from './context/user';
+import Container from './components/containerPadrao/index'
 
 class BootstrapNavbar extends React.Component
 {
@@ -30,7 +31,9 @@ class BootstrapNavbar extends React.Component
         <UserProvider>
           <div className="containerGeral">
             <Header />
-            <Routes />
+            <Container>
+              <Routes />
+            </Container>
           </div>
         </UserProvider>
       </Router>
