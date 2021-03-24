@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
-import { HeaderText, Divider } from './styles'
+import { HeaderText, Divider, Container } from './styles'
 
 function App()
 {
@@ -38,7 +38,7 @@ function App()
     ];
 
     return (
-        <div>
+        <Container>
             <HeaderText>Pedidos</HeaderText>
             <Divider />
             <Table striped bordered hover size="sm">
@@ -59,7 +59,7 @@ function App()
                     ))}
                 </tbody>
             </Table>
-        </div>
+        </Container>
     );
 }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Panel = styled.div`
-flex: 1;
+    flex: 1;
     text-align: center;
     width: 400px;
 `;
