@@ -45,6 +45,7 @@ function Pedido(props)
                         <div>Tab Produtos</div>
                         <div>Tab Produtos</div>
                         <div>Tab Produtos</div>
+
                     </Tab>
                 </Tabs>
             </Modal.Body>
