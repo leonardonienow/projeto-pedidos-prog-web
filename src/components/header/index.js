@@ -3,11 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { BrowserRouter as Router } from "react-router-dom";
 import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
-import Pedido from '../../pages/pedido/index';
-import Pedidos from '../../pages/pedidos/index';
-import Produto from '../../pages/produto/index';
-import Produtos from '../../pages/produtos/index';
-import Erro from '../../pages/erro/index';
 import { UserContext } from '../../context/user';
 import './styles.css'
 

@@ -11,6 +11,7 @@ export const Container = styled.div`
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.3);
     margin-bottom: 15px;
 `;
+
 export const HeaderText = styled.span`
     font-size: 26px;
     font-family:'Roboto';

@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
 import { HeaderText, Divider, Container } from './styles'
+import Pedido from '../pedido/index'
 
 function App()
 {
-    const [state, setState] = React.useState({
-    });
+    const [state, setState] = React.useState({});
+    const [visibleModal, setVisibleModal] = React.useState(false);
+    const [pedidoSelecionado, setPedidoSelecionado] = React.useState(undefined);
 
     const listaPedidos = [{
         'ped_numero': '123',
@@ -41,6 +43,11 @@ function App()
         <Container>
             <HeaderText>Pedidos</HeaderText>
             <Divider />
+            <Pedido
+                onHide={() => setVisibleModal(false)}
+                pedido={pedidoSelecionado != undefined ? pedidoSelecionado : {}}
+                show={visibleModal}
+            />
             <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
@@ -51,7 +58,11 @@ function App()
                 </thead>
                 <tbody>
                     {listaPedidos.map((item) => (
-                        <tr>
+                        <tr onClick={() =>
+                        {
+                            setVisibleModal(true)
+                            setPedidoSelecionado(listaPedidos.find(eleme => eleme.ped_numero == item.ped_numero))
+                        }} >
                             <td>{item.ped_numero}</td>
                             <td>{item.usu_cpf}</td>
                             <td>{item.ped_datahora}</td>

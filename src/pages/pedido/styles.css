@@ -1,0 +1,18 @@
+.button {
+  margin-left: 5px;
+  border-color: #2f2041;
+  background-color: #2f2041;
+}
+.button:hover {
+  margin-left: 5px;
+  border-color: #2f2041;
+  background-color: #59486c;
+}
+
+.tabStyle {
+  color: #2f2041;
+}
+
+.tabStyle:hover {
+  color: #59486c;
+}
