@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { HeaderText, MensagemDeErro } from './styles'
+import { Button, HeaderText, MensagemDeErro } from './styles'
 import Container from '../../components/container/index'
-import { Form, Button } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Text } from '../../components/padroes/index'
 import { UserContext } from '../../context/user';
@@ -50,11 +50,11 @@ function App()
             <Form onSubmit={handleSubmit} autoComplete="off">
                 <HeaderText>Login</HeaderText>
                 <Form.Group controlId="formBasicEmail">
-                    <Text>Usuário</Text>
+                    <Form.Label>Usuário</Form.Label>
                     <Form.Control name='user' type="user" onChange={handleOnChange} />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                    <Text>Senha</Text>
+                    <Form.Label>Senha</Form.Label>
                     <Form.Control name='password' type="password" onChange={handleOnChange} />
                     {state.passwordError ? (<MensagemDeErro>
                         Senha e/ou usuário incorreto!

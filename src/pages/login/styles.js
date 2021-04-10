@@ -1,10 +1,5 @@
 import styled from 'styled-components';
 
-export const Panel = styled.div`
-    flex: 1;
-    text-align: center;
-    width: 400px;
-`;
 
 export const HeaderText = styled.text`
     font-weight: bold;
@@ -17,6 +12,25 @@ export const MensagemDeErro = styled.span`
     font-family:'Roboto';
     color:red;
     align-self: flex-end;
+`;
+
+export const Button = styled.button`
+    max-width: 200px;
+    border-color: #2f2041;
+    background-color: #2f2041;
+    padding: 5px 10px 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+
+  &:hover {
+    border-color: #59486c;
+    background-color: #59486c;
+  }
+
+  &:focus {
+    border-color: #59486c;
+    background-color: #59486c;
+  }
 `;
 
 

@@ -24,6 +24,7 @@ export const ContainerTabStyle = styled.div`
     overflow-y: scroll;
     white-space: nowrap;
 `;
+
 export const LinhaTabStyle = styled.div`
     flex-direction: column;
     margin-top: 2px;

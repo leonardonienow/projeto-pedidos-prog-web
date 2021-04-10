@@ -1,5 +1,13 @@
 import styled from 'styled-components';
-import { Tab, Tabs, Table } from 'react-bootstrap';
+
+export const ContainerStyle = styled.div`
+    flex-direction: column;
+    height: 400px;
+    padding: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    white-space: nowrap;
+`;
 
 export const ContainerFooterStyle = styled.div`
     display: flex;
@@ -18,12 +26,6 @@ export const ContainerFooterLeftButtonStyle = styled.div`
     align-self: flex-end;
 `;
 
-export const ContainerTabStyle = styled.div`
-    flex-direction: column;
-    height: 400px;
-    overflow-y: scroll;
-    white-space: nowrap;
-`;
 export const LinhaTabStyle = styled.div`
     flex-direction: column;
     margin-top: 2px;
@@ -55,5 +57,3 @@ export const Button = styled.button`
     background-color: #59486c;
   }
 `;
-
-

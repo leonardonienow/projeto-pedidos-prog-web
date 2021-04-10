@@ -1,40 +1,43 @@
 import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
-import { HeaderText, Divider, Container } from './styles'
-import Pedido from '../pedido/index'
+import { TableBody, TableHeader, Linha, Coluna, HeaderText, Divider, Container } from './styles'
+import Produto from '../produto/index'
 
 function App()
 {
-    const [state, setState] = React.useState({});
     const [visibleModal, setVisibleModal] = React.useState(false);
-    const [pedidoSelecionado, setPedidoSelecionado] = React.useState(undefined);
+    const [produtoSelecionado, setProdutoSelecionado] = React.useState(undefined);
 
-    const listaPedidos = [{
+    const listaProdutos = [{
         'pro_codigo': '123',
         'pro_descricao': 'SABÃO EM PÓ',
-        'pro_valor': '10',
-        'cat_descricao': 'GERAL',
+        'pro_valor': 10.00,
+        'cat_id': '2',
+        'cat_descricao': 'TESTE',
         'pro_ativo': 'S',
     },
     {
         'pro_codigo': '124',
         'pro_descricao': 'SABÃO EM LIQUIDO',
-        'pro_valor': '24',
+        'pro_valor': 24.00,
+        'cat_id': '1',
         'cat_descricao': 'GERAL',
         'pro_ativo': 'S',
     },
     {
         'pro_codigo': '125',
         'pro_descricao': 'SABONETE YPE',
-        'pro_valor': '1.60',
+        'pro_valor': 1.60,
+        'cat_id': '1',
         'cat_descricao': 'GERAL',
         'pro_ativo': 'S',
     },
     {
         'pro_codigo': '126',
         'pro_descricao': 'COCA COLA 2L',
-        'pro_valor': '6.60',
-        'cat_descricao': 'GERAL',
+        'pro_valor': 6.60,
+        'cat_id': '2',
+        'cat_descricao': 'TESTE',
         'pro_ativo': 'S',
     }
     ];
@@ -43,34 +46,34 @@ function App()
         <Container>
             <HeaderText>Produtos</HeaderText>
             <Divider />
-            <Pedido
+            <Produto
                 onHide={() => setVisibleModal(false)}
-                pedido={pedidoSelecionado != undefined ? pedidoSelecionado : {}}
+                produto={produtoSelecionado != undefined ? produtoSelecionado : {}}
                 show={visibleModal}
             />
             <Table striped bordered hover size="sm">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Descrição</th>
-                        <th>Categoria</th>
-                        <th>Valor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listaPedidos.map((item) => (
-                        <tr onClick={() =>
+                <TableHeader>
+                    <Linha>
+                        <Coluna>Código</Coluna>
+                        <Coluna>Descrição</Coluna>
+                        <Coluna>Categoria</Coluna>
+                        <Coluna>Valor</Coluna>
+                    </Linha>
+                </TableHeader>
+                <TableBody>
+                    {listaProdutos.map((item) => (
+                        <Linha onClick={() =>
                         {
                             setVisibleModal(true)
-                            setPedidoSelecionado(listaPedidos.find(eleme => eleme.ped_numero == item.ped_numero))
+                            setProdutoSelecionado(listaProdutos.find(eleme => eleme.pro_codigo == item.pro_codigo))
                         }} >
-                            <td>{item.pro_codigo}</td>
-                            <td>{item.pro_descricao}</td>
-                            <td>{item.cat_descricao}</td>
-                            <td>{Number.parseFloat(item.pro_valor).toFixed(2)}</td>
-                        </tr>
+                            <Coluna>{item.pro_codigo}</Coluna>
+                            <Coluna>{item.pro_descricao}</Coluna>
+                            <Coluna>{item.cat_descricao}</Coluna>
+                            <Coluna>{Number.parseFloat(item.pro_valor).toFixed(2)}</Coluna>
+                        </Linha>
                     ))}
-                </tbody>
+                </TableBody>
             </Table>
         </Container>
     );

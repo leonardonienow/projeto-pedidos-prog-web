@@ -10,7 +10,7 @@ export const BootstrapNavbar = () =>
 {
     const { authenticated, removeUserAuthenticated } = useContext(UserContext);
     const history = useHistory();
-
+    //console.log(authenticated)
     const handleLoginClick = () =>
     {
         removeUserAuthenticated();

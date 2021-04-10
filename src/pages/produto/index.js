@@ -1,127 +1,23 @@
-import React from 'react'
-import { Modal, Tab, Tabs, Table } from 'react-bootstrap';
-import { TabsStyled, TabStyled, Button, LinhaDadoStyle, ContainerTabStyle, LinhaTabStyle, ContainerFooterStyle, ContainerFooterRightButtonStyle, ContainerFooterLeftButtonStyle } from './styles'
+import React, { View } from 'react'
+import { Modal, Dropdown, Form, Col, Row } from 'react-bootstrap';
+import { TableBody, DropDownStyle, Linha, Coluna, LinhaDadoStyle, ContainerStyle, Button, ContainerFooterStyle, ContainerFooterRightButtonStyle, ContainerFooterLeftButtonStyle } from './styles'
 import './styles.css'
-var dateFormat = require("dateformat");
 
-const listaProdutos = [{
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
-}, {
-    'ped_numero': '123',
-    'pro_codigo': '1',
-    'pro_valor': '6',
-    'pro_descricao': 'SABÃO EM PÓ',
+let categorias = [{
+    'cat_id': '1',
+    'cat_descricao': 'GERAL',
+},
+{
+    'cat_id': '2',
+    'cat_descricao': 'TESTE',
 },
 ];
 
-
-function Pedido(props)
+function Produto(props)
 {
-    props.pedido.ped_datahora = Date.parse(props.pedido.ped_datahora);
     const [refresh, setRefresh] = React.useState(false);
+
+    // #region Funções
 
     const AtualizarPagina = () =>
     {
@@ -140,6 +36,7 @@ function Pedido(props)
 
     const handleButtonExcluir = () =>
     {
+
         props.onHide();
     }
 
@@ -147,6 +44,34 @@ function Pedido(props)
     {
         setRefresh(!refresh);
     }
+
+    const RetornaCategoriaSelecionada = () =>
+    {
+        //console.log(props.produto)
+        let categoriaSelecionada = categorias.find(element => element.cat_id == props.produto.cat_id);
+
+        if (categoriaSelecionada) {
+            return categoriaSelecionada.cat_descricao;
+        }
+
+        return '';
+    }
+
+    const handleOnChange = e =>
+    {
+        const { name, value } = e.target;
+        let valor = value;
+
+        if (name == 'pro_valor' && valor == '') {
+            valor = 0;
+        }
+
+        props.produto[name] = valor;
+
+        AtualizarPagina();
+    };
+
+    // #endregion
 
     return (
         <Modal
@@ -157,53 +82,51 @@ function Pedido(props)
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Pedido - {props.pedido.ped_numero}
+                    Produto - {props.produto.pro_codigo}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Tabs cd="uncontrolled-tab-example">
-                    <Tab tabClassName='tabStyle' eventKey="home" title="Dados">
-                        <ContainerTabStyle>
-                            <tbody>
-                                <tr>
-                                    <td>CPF:</td>
-                                    <td><LinhaDadoStyle>{props.pedido.ped_numero}</LinhaDadoStyle></td>
-                                </tr>
-                                <tr>
-                                    <td>Data:</td>
-                                    <td><LinhaDadoStyle>{dateFormat(props.pedido.ped_datahora, "dd/mm/yyyy")}</LinhaDadoStyle></td>
-                                </tr>
-                                <tr>
-                                    <td>Entregue:</td>
-                                    <td><LinhaDadoStyle>{props.pedido.ped_entregue == 'S' ? 'NÃO' : 'SIM'}</LinhaDadoStyle></td>
-                                </tr>
-                            </tbody>
-                        </ContainerTabStyle>
-                    </Tab>
-                    <Tab tabClassName='tabStyle' eventKey="profile" title="Produtos" >
-                        <ContainerTabStyle>
-                            <Button onClick={handleButtonAdcionarProduto}>Adicionar Produto</Button>
-                            <Table striped bordered hover size="sm">
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {listaProdutos.map((item) => (
-                                        <tr >
-                                            <td>{item.pro_codigo}</td>
-                                            <td>{item.pro_descricao}</td>
-                                            <td>{item.pro_valor}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </ContainerTabStyle>
-                    </Tab>
-                </Tabs>
+                <ContainerStyle>
+                    <Form>
+                        <Form.Group as={Row}>
+                            <Form.Label column size='sm' sm="2" >Descrição:</Form.Label>
+                            <Col>
+                                <Form.Control name='pro_descricao' onChange={handleOnChange} column size='sm' sm="1" type="input" value={props.produto.pro_descricao} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label column size='sm' sm="2" >Valor:</Form.Label>
+                            <Col>
+                                {/* <Form.Control name='pro_descricao' onChange={handleOnChange} column size='sm' sm="1" type="input" value={props.produto.pro_descricao} /> */}
+                                <Form.Control name='pro_valor' type='input' onChange={handleOnChange} column size='sm' value={props.produto.pro_valor} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label column size='sm' sm="2" >Categoria:</Form.Label>
+                            <Col>
+                                <Dropdown>
+                                    <Dropdown.Toggle variant='secondary' size="sm">
+                                        {
+                                            RetornaCategoriaSelecionada()
+                                        }
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu size="sm">
+                                        {
+                                            categorias.map(item => (
+                                                <Dropdown.Item eventKey={item.cat_id} onSelect={(item) =>
+                                                {
+                                                    props.produto.cat_id = item;
+                                                    AtualizarPagina()
+                                                }}>
+                                                    {item.cat_descricao}</Dropdown.Item>
+                                            ))
+                                        }
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                </ContainerStyle>
             </Modal.Body>
             <Modal.Footer>
                 <ContainerFooterStyle>
@@ -220,4 +143,4 @@ function Pedido(props)
     );
 }
 
-export default Pedido;
+export default Produto;

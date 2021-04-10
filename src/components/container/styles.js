@@ -1,4 +1,6 @@
-.container {
+import styled from 'styled-components'
+
+export const ContainerStyle = styled.div`
   flex: 1;
   max-width: 400px;
   max-height: 260px;
@@ -9,4 +11,4 @@
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.3);
-}
+`;

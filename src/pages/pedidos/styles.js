@@ -23,5 +23,22 @@ export const Divider = styled.div`
     height: 1px;
     margin: 5px 0px 10px;
     background-color: #bfbfbf;
+`;
+
+export const Coluna = styled.td`
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+export const Linha = styled.tr`
+
+`;
+
+export const TableBody = styled.tbody`
+
+`;
+
+export const TableHeader = styled.thead`
 
 `;
