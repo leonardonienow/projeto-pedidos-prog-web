@@ -17,6 +17,7 @@ export const BootstrapNavbar = () =>
         history.push('/login');
     };
 
+
     return (
         <div className="row">
             <div className="col-md-12">

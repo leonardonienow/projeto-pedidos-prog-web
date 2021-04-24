@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const ContainerStyle = styled.div`
   flex: 1;
-  max-width: 400px;
-  max-height: 260px;
+  width: 400px;
+  max-height: 290px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
