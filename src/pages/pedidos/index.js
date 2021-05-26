@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
-import { TableBody, TableHeader, Linha, Coluna, HeaderText, Divider, Container } from './styles'
+import { TableBody, TableHeader, Linha, Coluna, HeaderText, Divider, Container, Button, HeaderStyle } from './styles'
 import Pedido from '../pedido/index'
 
 function App()
@@ -41,7 +41,10 @@ function App()
 
     return (
         <Container>
-            <HeaderText>Pedidos</HeaderText>
+            <HeaderStyle>
+                <HeaderText>Pedidos</HeaderText>
+                <Button onClick={() => { }}>Adicionar Pedido</Button>
+            </HeaderStyle>
             <Divider />
             <Pedido
                 onHide={() => setVisibleModal(false)}

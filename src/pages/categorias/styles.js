@@ -23,7 +23,6 @@ export const Divider = styled.div`
     height: 1px;
     margin: 5px 0px 10px;
     background-color: #bfbfbf;
-    text-align: center;
 `;
 
 export const Coluna = styled.td`
@@ -44,6 +43,14 @@ export const TableHeader = styled.thead`
 
 `;
 
+export const HeaderStyle = styled.div`
+display: flex;
+flex: 1;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+max-height: 50px;
+`;
 export const Button = styled.button`
     max-width: 200px;
     margin: 5px;
@@ -64,13 +71,4 @@ export const Button = styled.button`
     border-color: #59486c;
     background-color: #59486c;
   }
-`;
-
-export const HeaderStyle = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    max-height: 50px;
 `;

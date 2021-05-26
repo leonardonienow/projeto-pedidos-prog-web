@@ -6,6 +6,8 @@ import { Form } from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Text } from '../../components/padroes/index'
 import { UserContext } from '../../context/user';
+import { CommonLoading } from 'react-loadingg';
+const apiApplication = require('../../services/apiApplication')
 
 function App()
 {
@@ -16,6 +18,8 @@ function App()
         user: '',
         password: '',
         passwordError: false,
+        passwordMessage: '',
+        //loading: false,
     });
 
     React.useEffect(() =>
@@ -35,13 +39,20 @@ function App()
     {
         e.preventDefault();
 
-        if (state.user.toLowerCase() == 'admin' && state.password.toLowerCase() == 'admin') {
-            setUserAuthenticated();
-            history.push('/pedidos');
-        } else if (false) {
+        try {
+            let params = [state.user.trim(), state.password.trim()];
+            let auth = await apiApplication.post('/login', params);
 
-        } else {
-            setState({ ...state, ['passwordError']: true });
+            if (auth !== false) {
+                setUserAuthenticated();
+                history.push('/pedidos');
+            }
+            else {
+                setState({ ...state, ['passwordError']: true });
+                setState({ ...state, ['passwordMessage']: 'Usuário e/ou senha incorreta!' });
+            }
+        } catch (e) {
+            setState({ ...state, ['passwordMessage']: 'Problemas ao efetuar Login!' });
         }
     }
 
@@ -57,10 +68,10 @@ function App()
                     <Form.Label>Senha</Form.Label>
                     <Form.Control name='password' type="password" onChange={handleOnChange} />
                     {state.passwordError ? (<MensagemDeErro>
-                        Senha e/ou usuário incorreto!
+                        {state.passwordMessage}
                     </MensagemDeErro>) : <div />}
                 </Form.Group>
-                <Button variant="primary" type="submit" >
+                <Button variant="primary" type="submit">
                     Logar
                 </Button>
             </Form>

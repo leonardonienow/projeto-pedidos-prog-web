@@ -30,6 +30,7 @@ export const BootstrapNavbar = () =>
                                 <Nav className="mr-auto">
                                     <Nav.Link href="/pedidos">Pedidos</Nav.Link>
                                     <Nav.Link href="/produtos">Produtos</Nav.Link>
+                                    <Nav.Link href="/categorias">Categorias</Nav.Link>
                                 </Nav>
                                 <Form inline>
                                     <Button variant='dark' className="navbar-button" onClick={handleLoginClick}>Sair</Button>

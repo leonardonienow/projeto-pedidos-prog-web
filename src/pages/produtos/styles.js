@@ -42,3 +42,33 @@ export const TableBody = styled.tbody`
 export const TableHeader = styled.thead`
 
 `;
+
+export const HeaderStyle = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 50px;
+`;
+export const Button = styled.button`
+    max-width: 200px;
+    margin: 5px;
+    border-color: #2f2041;
+    background-color: #2f2041;
+    padding: 5px 10px 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+
+  &:hover {
+    margin: 5px;
+    border-color: #59486c;
+    background-color: #59486c;
+  }
+
+  &:focus {
+    margin: 5px;
+    border-color: #59486c;
+    background-color: #59486c;
+  }
+`;
