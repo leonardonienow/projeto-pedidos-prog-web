@@ -1,82 +1,96 @@
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Button, HeaderText, MensagemDeErro } from './styles'
-import Container from '../../components/container/index'
-import { Form } from 'react-bootstrap'
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { Button, HeaderText, MensagemDeErro } from "./styles";
+import Container from "../../components/container/index";
+import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Text } from '../../components/padroes/index'
-import { UserContext } from '../../context/user';
-import { CommonLoading } from 'react-loadingg';
-const apiApplication = require('../../services/apiApplication')
+import { Text } from "../../components/padroes/index";
+import { UserContext } from "../../context/user";
+import { CommonLoading } from "react-loadingg";
+import axios from "axios";
 
-function App()
-{
-    const { setUserAuthenticated, authenticated } = useContext(UserContext);
-    const history = useHistory();
+function App() {
+  const { setUserAuthenticated, authenticated } = useContext(UserContext);
+  const history = useHistory();
 
-    const [state, setState] = React.useState({
-        user: '',
-        password: '',
-        passwordError: false,
-        passwordMessage: '',
-        //loading: false,
-    });
+  const [state, setState] = React.useState({
+    user: "",
+    password: "",
+    passwordError: false,
+    passwordMessage: "",
+    //loading: false,
+  });
 
-    React.useEffect(() =>
-    {
-        if (authenticated) history.replace('/');
-    }, [authenticated, history]);
+  React.useEffect(() => {
+    if (authenticated) history.replace("/");
+  }, [authenticated, history]);
 
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
 
-    const handleOnChange = e =>
-    {
-        const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+  };
 
-        setState({ ...state, [name]: value });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleSubmit = async e =>
-    {
-        e.preventDefault();
+      let param = [state.user.trim(), state.password.trim()];
 
-        try {
-            let params = [state.user.trim(), state.password.trim()];
-            let auth = await apiApplication.post('/login', params);
+      let body = {
+        usuario: param[0],
+        senha: param[1],
+      };
 
-            if (auth !== false) {
-                setUserAuthenticated();
-                history.push('/pedidos');
-            }
-            else {
-                setState({ ...state, ['passwordError']: true });
-                setState({ ...state, ['passwordMessage']: 'Usuário e/ou senha incorreta!' });
-            }
-        } catch (e) {
-            setState({ ...state, ['passwordMessage']: 'Problemas ao efetuar Login!' });
-        }
-    }
+      axios
+        .post(`http://localhost:3333/login`, body)
+        .then((res) => {
+          if (res.data.status == "200") {
+            setUserAuthenticated();
+            history.push("/login");
+          } else {
+            setState({
+              ...state,
+              ["passwordMessage"]: "Usuário e/ou senha incorreta!",
+              ["passwordError"]: true,
+            });
+          }
+        })
+        .catch(
+          setState({
+            ...state,
+            ["passwordMessage"]: "Problemas ao efetuar Login!",
+            ["passwordError"]: true,
+          })
+        );
+  };
 
-    return (
-        <Container>
-            <Form onSubmit={handleSubmit} autoComplete="off">
-                <HeaderText>Login</HeaderText>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Usuário</Form.Label>
-                    <Form.Control name='user' type="user" onChange={handleOnChange} />
-                </Form.Group>
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control name='password' type="password" onChange={handleOnChange} />
-                    {state.passwordError ? (<MensagemDeErro>
-                        {state.passwordMessage}
-                    </MensagemDeErro>) : <div />}
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Logar
-                </Button>
-            </Form>
-        </Container>
-    );
+  return (
+    <Container>
+      <Form onSubmit={handleSubmit} autoComplete="off">
+        <HeaderText>Login</HeaderText>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Usuário</Form.Label>
+          <Form.Control name="user" type="user" onChange={handleOnChange} />
+        </Form.Group>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Senha</Form.Label>
+          <Form.Control
+            name="password"
+            type="password"
+            onChange={handleOnChange}
+          />
+          {state.passwordError ? (
+            <MensagemDeErro>{state.passwordMessage}</MensagemDeErro>
+          ) : (
+            <div />
+          )}
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Logar
+        </Button>
+      </Form>
+    </Container>
+  );
 }
 
 export default App;

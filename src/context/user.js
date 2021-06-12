@@ -7,6 +7,7 @@ export default ({ children }) =>
     const prevAuth = window.localStorage.getItem('authenticated');
     const [authenticated, setAuthenticated] = useState(prevAuth);
     const [headerText, setHeaderText] = useState('');
+ 
 
     const setUserAuthenticated = useCallback(() =>
     {
