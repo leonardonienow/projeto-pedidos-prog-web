@@ -47,7 +47,7 @@ function Produto(props)
 
     const RetornaCategoriaSelecionada = () =>
     {
-        //console.log(props.produto)
+        
         let categoriaSelecionada = categorias.find(element => element.cat_id == props.produto.cat_id);
 
         if (categoriaSelecionada) {

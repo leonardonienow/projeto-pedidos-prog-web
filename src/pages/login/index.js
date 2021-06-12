@@ -45,7 +45,7 @@ function App() {
         .post(`http://localhost:3333/login`, body)
         .then((res) => {
           if (res.data.status == "200") {
-            setUserAuthenticated();
+            setUserAuthenticated(res.data.message);
             history.push("/login");
           } else {
             setState({

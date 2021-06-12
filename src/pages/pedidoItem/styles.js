@@ -20,8 +20,8 @@ export const ContainerFooterLeftButtonStyle = styled.div`
 
 export const ContainerTabStyle = styled.div`
     flex-direction: column;
-    height: 400px;
-    overflow-y: scroll;
+    width: 470px;
+    height: 150px;
     white-space: nowrap;
     padding: 15px 15px 15px 5px;
 `;
@@ -104,10 +104,6 @@ export const HeaderStyle = styled.div`
     justify-content: space-between;
     align-items: center;
     max-height: 50px;
-`;
-
-export const Linha = styled.tr`
-
 `;
 
 

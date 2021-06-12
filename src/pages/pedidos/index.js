@@ -13,39 +13,51 @@ import {
 } from "./styles";
 import Pedido from "../pedido/index";
 import axios from "axios";
-import moment from 'moment';
+import moment from "moment";
+import { UserContext } from "../../context/user";
 
 function App() {
   const [including, setIncluding] = React.useState(false);
   const [visibleModal, setVisibleModal] = React.useState(false);
   const [pedidoSelecionado, setPedidoSelecionado] = React.useState(undefined);
   const [listaPedidos, setListaPedidos] = React.useState([]);
+  const [atualizarListar, setAtualizarListar] = React.useState(false);
+  const { user } = useContext(UserContext);
 
   React.useEffect(() => {
-
     let body = {
-      "entregue" : "N",
-      "ativo" : "S", 
-    }
+      entregue: "N",
+      ativo: "S",
+      usu_cpf: user,
+    };
 
-    axios
-      .post(`http://localhost:3333/pedidos/listar`, body)
-      .then((res) => {
-        setListaPedidos(res.data.message);
-      });
-      
+    axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+      setListaPedidos(res.data.message || []);
+    });
   }, [visibleModal]);
 
-  // 'ped_numero': '126',
-  // 'usu_cpf': '561.026.400-63',
-  // 'ped_datahora': '2021-20-03 12:54:00',
-  // 'ped_entregue': 'N',
-  // 'ped_ativo': 'S',
   const openIncludeOrder = () => {
-    setIncluding(true);
-    setVisibleModal(true);
-    setPedidoSelecionado({ped_datahora:  moment().format('L'), ped_entregue: 'N'});
-  }
+    let body = {
+      pedido: {
+        usu_cpf: user,
+        ped_datahora: moment().format("L"),
+        ped_entregue: "N",
+        ped_ativo: "S",
+      },
+    };
+
+    axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
+      body = {
+        entregue: "N",
+        ativo: "S",
+        usu_cpf: user,
+      };
+
+      axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+        setListaPedidos(res.data.message || []);
+      });
+    });
+  };
 
   return (
     <Container>
@@ -71,6 +83,7 @@ function App() {
         <TableBody>
           {listaPedidos.map((item) => (
             <Linha
+              key={item.ped_numero}
               onClick={() => {
                 setIncluding(false);
                 setVisibleModal(true);

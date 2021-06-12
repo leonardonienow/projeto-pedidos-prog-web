@@ -9,7 +9,7 @@ import {
   Col,
   Row,
 } from "react-bootstrap";
-import DateTimePicker from "react-date-picker";
+import PedidoItem from "../pedidoItem/index";
 import axios from "axios";
 import {
   Button,
@@ -18,147 +18,41 @@ import {
   ContainerFooterStyle,
   ContainerFooterRightButtonStyle,
   ContainerFooterLeftButtonStyle,
+  TableHeader,
+  Linha,
+  Coluna,
+  TableBody,
 } from "./styles";
 import "./styles.css";
-
-const listaProdutos = [
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-  {
-    ped_numero: "123",
-    pro_codigo: "1",
-    pro_valor: "6",
-    pro_descricao: "SABÃO EM PÓ",
-  },
-];
+import { UserContext } from "../../context/user";
 
 function Pedido(props) {
   let refSelect = React.createRef();
   const [refresh, setRefresh] = React.useState(false);
+  const [listaProdutos, setListaProdutos] = React.useState([]);
+  const [visibleModal, setVisibleModal] = React.useState(false);
+  const [including, setIncluding] = React.useState(false);
+  const [pedidoItemSelecionado, setPedidoItemSelecionado] =
+    React.useState(undefined);
+  const { user } = React.useContext(UserContext);
+
+  React.useEffect(() => {
+    function load() {
+      let body = {
+        pedidoItem: props.pedido,
+      };
+
+      axios
+        .post(`http://localhost:3333/pedido_item/listar`, body)
+        .then((res) => {
+          setListaProdutos(res.data.message);
+        });
+
+      props.pedido.usu_cpf = user;
+    }
+
+    if (props.show) load();
+  }, [visibleModal, props.show]);
 
   const AtualizarPagina = () => {
     setRefresh(!refresh);
@@ -172,6 +66,7 @@ function Pedido(props) {
     let body = {
       pedido: props.pedido,
     };
+
     if (props.including) {
       axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
         props.onHide();
@@ -197,18 +92,36 @@ function Pedido(props) {
   const handleButtonExcluir = () => {
     let body = {
       pedido: props.pedido,
+      todosItens: true,
     };
 
     axios
-      .delete(`http://localhost:3333/pedidos`, {
+      .delete(`http://localhost:3333/pedido_item`, {
         data: body,
       })
       .then((res) => {
-        props.onHide();
+        body = {
+          pedido: props.pedido,
+        };
+
+        axios
+          .delete(`http://localhost:3333/pedidos`, {
+            data: body,
+          })
+          .then((res) => {
+            props.onHide();
+          });
       });
   };
 
   const handleButtonAdcionarProduto = () => {
+    setPedidoItemSelecionado({
+      ped_numero: props.pedido.ped_numero,
+      pro_valor: 0,
+      item_quantidade: 0,
+    });
+    setIncluding(true);
+    setVisibleModal(true);
     setRefresh(!refresh);
   };
 
@@ -219,6 +132,14 @@ function Pedido(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
+      <PedidoItem
+        onHide={() => setVisibleModal(false)}
+        pedidoItem={
+          pedidoItemSelecionado != undefined ? pedidoItemSelecionado : {}
+        }
+        show={visibleModal}
+        including={including}
+      />
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Pedido - {props.pedido.ped_numero}
@@ -237,7 +158,7 @@ function Pedido(props) {
                     <Form.Control
                       name="usu_cpf"
                       onChange={handleOnChange}
-                      disabled={props.including ? false : true}
+                      disabled={true}
                       column
                       size="sm"
                       sm="1"
@@ -285,31 +206,52 @@ function Pedido(props) {
               </Form>
             </ContainerTabStyle>
           </Tab>
-          <Tab tabClassName="tabStyle" eventKey="profile" title="Produtos">
-            <ContainerTabStyle>
-              <Button onClick={handleButtonAdcionarProduto}>
-                Adicionar Produto
-              </Button>
-              <Table striped bordered hover size="sm">
-                <thead>
-                  <tr>
-                    <th>Código</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listaProdutos.map((item) => (
-                    <tr>
-                      <td>{item.pro_codigo}</td>
-                      <td>{item.pro_descricao}</td>
-                      <td>{item.pro_valor}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </ContainerTabStyle>
-          </Tab>
+          {!props.including ? (
+            <Tab tabClassName="tabStyle" eventKey="profile" title="Produtos">
+              <ContainerTabStyle>
+                <Button onClick={handleButtonAdcionarProduto}>
+                  Adicionar Produto
+                </Button>
+                <Table striped bordered hover size="sm">
+                  <TableHeader>
+                    <Linha>
+                      <Coluna>Código</Coluna>
+                      <Coluna>Descrição</Coluna>
+                      <Coluna>Quantidade</Coluna>
+                      <Coluna>Valor</Coluna>
+                    </Linha>
+                  </TableHeader>
+                  <TableBody>
+                    {listaProdutos.map((item) => (
+                      <Linha
+                        key={item.ped_numero}
+                        onClick={() => {
+                          setIncluding(false);
+                          setVisibleModal(true);
+                          setPedidoItemSelecionado(
+                            listaProdutos.find(
+                              (eleme) => eleme.pro_codigo == item.pro_codigo //&& eleme.pro_codigo == item.pro_codigo
+                            )
+                          );
+                        }}
+                      >
+                        <Coluna>{item.pro_codigo}</Coluna>
+                        <Coluna>{item.pro_descricao}</Coluna>
+                        <Coluna>{item.item_quantidade}</Coluna>
+                        <Coluna>
+                          {(item.item_quantidade * item.pro_valor)
+                            .toFixed(2)
+                            .toLocaleString("pt-BR")}
+                        </Coluna>
+                      </Linha>
+                    ))}
+                  </TableBody>
+                </Table>
+              </ContainerTabStyle>
+            </Tab>
+          ) : (
+            <div />
+          )}
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
