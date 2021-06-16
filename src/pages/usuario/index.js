@@ -12,21 +12,23 @@ import "./styles.css";
 
 function Produto(props) {
   const [refresh, setRefresh] = React.useState(false);
-  const [categorias, setCategorias] = React.useState([]);
+  const [cpfAnterior, setCpfAnterior] = React.useState("");
+  //let cpfAnterior = '';
+  // #region Funções
 
   React.useEffect(() => {
     let body = {
-      cat_ativa: "S",
+      cpf: props.usuario.usu_cpf,
     };
 
-    axios.post(`http://localhost:3333/categoria/listar`, body).then((res) => {
-      setCategorias(res.data.message || []);
+    axios.post(`http://localhost:3333/meu-perfil`, body).then((res) => {
+      setCpfAnterior(
+        res.data.message != undefined && res.data.message.length > 0
+          ? res.data.message[0].usu_cpf
+          : ""
+      );
     });
-
-    console.log(categorias);
-  }, []);
-
-  // #region Funções
+  }, [props.show]);
 
   const AtualizarPagina = () => {
     setRefresh(!refresh);
@@ -38,51 +40,32 @@ function Produto(props) {
 
   const handleButtonSalvar = () => {
     let body = {
-      produto: props.produto,
+      usuario: props.usuario,
+      cpf_anterior: cpfAnterior,
     };
-
-    axios.put(`http://localhost:3333/produtos`, body).then((res) => {
+    console.log(body);
+    axios.put(`http://localhost:3333/usuario`, body).then((res) => {
       props.onHide();
     });
-
-    AtualizarPagina();
   };
-  
+
   const handleButtonExcluir = () => {
     let body = {
-      produto: props.produto,
+      usuario: props.usuario,
     };
 
-    axios.delete(`http://localhost:3333/produtos`, {
+    axios.delete(`http://localhost:3333/usuario`, {
       data: body,
     });
 
     props.onHide();
   };
 
-  const RetornaCategoriaSelecionada = () => {
-    let categoriaSelecionada = categorias.find(
-      (element) => element.cat_id == props.produto.cat_id
-    );
-
-    if (categoriaSelecionada) {
-      return categoriaSelecionada.cat_descricao;
-    }
-
-    return "";
-  };
-
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     let valor = value;
 
-    if (name == "pro_valor" && valor == "") {
-      valor = 0;
-    } else if (name == "pro_descricao") {
-      valor = valor.toUpperCase();
-    }
-
-    props.produto[name] = valor;
+    props.usuario[name] = valor;
 
     AtualizarPagina();
   };
@@ -98,7 +81,7 @@ function Produto(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Produto - {props.produto.pro_codigo}
+          Usuario - {props.usuario.cat_codigo}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -106,57 +89,78 @@ function Produto(props) {
           <Form>
             <Form.Group as={Row}>
               <Form.Label column size="sm" sm="2">
-                Descrição:
+                CPF:
               </Form.Label>
               <Col>
                 <Form.Control
-                  name="pro_descricao"
+                  name="usu_cpf"
                   onChange={handleOnChange}
                   column
                   size="sm"
                   sm="1"
                   type="input"
-                  value={props.produto.pro_descricao}
+                  value={props.usuario.usu_cpf}
                 />
               </Col>
             </Form.Group>
             <Form.Group as={Row}>
               <Form.Label column size="sm" sm="2">
-                Valor:
+                Email:
               </Form.Label>
               <Col>
-                {/* <Form.Control name='pro_descricao' onChange={handleOnChange} column size='sm' sm="1" type="input" value={props.produto.pro_descricao} /> */}
                 <Form.Control
-                  name="pro_valor"
-                  type="input"
+                  name="usu_email"
                   onChange={handleOnChange}
                   column
                   size="sm"
-                  value={props.produto.pro_valor}
+                  sm="1"
+                  type="input"
+                  value={props.usuario.usu_email}
                 />
               </Col>
             </Form.Group>
             <Form.Group as={Row}>
               <Form.Label column size="sm" sm="2">
-                Categoria:
+                Senha:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  name="usu_senha"
+                  onChange={handleOnChange}
+                  column
+                  size="sm"
+                  sm="1"
+                  type="input"
+                  value={props.usuario.usu_senha}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+              <Form.Label column size="sm" sm="2">
+                Ativo:
               </Form.Label>
               <Col>
                 <Dropdown>
                   <Dropdown.Toggle variant="secondary" size="sm">
-                    {RetornaCategoriaSelecionada()}
+                    {props.usuario.usu_ativo == "S" ? "SIM" : "NÃO"}
                   </Dropdown.Toggle>
                   <Dropdown.Menu size="sm">
-                    {categorias.map((item) => (
-                      <Dropdown.Item
-                        eventKey={item.cat_id}
-                        onSelect={(item) => {
-                          props.produto.cat_id = item;
-                          AtualizarPagina();
-                        }}
-                      >
-                        {item.cat_descricao}
-                      </Dropdown.Item>
-                    ))}
+                    <Dropdown.Item
+                      onSelect={(item) => {
+                        props.usuario.usu_ativo = "S";
+                        AtualizarPagina();
+                      }}
+                    >
+                      SIM
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onSelect={(item) => {
+                        props.usuario.usu_ativo = "N";
+                        AtualizarPagina();
+                      }}
+                    >
+                      NÃO
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>

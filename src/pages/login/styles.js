@@ -14,6 +14,11 @@ export const MensagemDeErro = styled.span`
     align-self: flex-end;
 `;
 
+export const ContainerBotoes = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
 export const Button = styled.button`
     max-width: 200px;
     border-color: #2f2041;

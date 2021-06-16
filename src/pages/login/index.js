@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, HeaderText, MensagemDeErro } from "./styles";
+import { Button, HeaderText, MensagemDeErro, ContainerBotoes } from "./styles";
 import Container from "../../components/container/index";
 import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,35 +34,41 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      let param = [state.user.trim(), state.password.trim()];
+    let param = [state.user.trim(), state.password.trim()];
 
-      let body = {
-        usuario: param[0],
-        senha: param[1],
-      };
+    let body = {
+      usuario: param[0],
+      senha: param[1],
+    };
 
-      axios
-        .post(`http://localhost:3333/login`, body)
-        .then((res) => {
-          if (res.data.status == "200") {
-            setUserAuthenticated(res.data.message);
-            history.push("/login");
-          } else {
-            setState({
-              ...state,
-              ["passwordMessage"]: "Usuário e/ou senha incorreta!",
-              ["passwordError"]: true,
-            });
-          }
-        })
-        .catch(
+    axios
+      .post(`http://localhost:3333/login`, body)
+      .then((res) => {
+        console.log(res);
+        if (res.data.status == "200") {
+          setUserAuthenticated(res.data.message);
+          history.push("/login");
+        } else {
           setState({
             ...state,
-            ["passwordMessage"]: "Problemas ao efetuar Login!",
+            ["passwordMessage"]: "Usuário e/ou senha incorreta!",
             ["passwordError"]: true,
-          })
-        );
+          });
+        }
+      })
+      .catch(
+        setState({
+          ...state,
+          ["passwordMessage"]: "Problemas ao efetuar Login!",
+          ["passwordError"]: true,
+        })
+      );
   };
+
+  const forgotPassword = () => {
+    console.log('oi')
+    history.push("/meu-perfil");
+  }
 
   return (
     <Container>
@@ -85,9 +91,14 @@ function App() {
             <div />
           )}
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Logar
-        </Button>
+        <ContainerBotoes>
+          <Button variant="primary" type="submit">
+            Logar
+          </Button>
+          <Button variant="primary" onClick={forgotPassword}>
+            Esqueci minha senha
+          </Button>
+        </ContainerBotoes>
       </Form>
     </Container>
   );

@@ -41,14 +41,15 @@ function Pedido(props) {
       let body = {
         pedidoItem: props.pedido,
       };
+      if (user != 'admin') {
+        axios
+          .post(`http://localhost:3333/pedido_item/listar`, body)
+          .then((res) => {
+            setListaProdutos(res.data.message);
+          });
 
-      axios
-        .post(`http://localhost:3333/pedido_item/listar`, body)
-        .then((res) => {
-          setListaProdutos(res.data.message);
-        });
-
-      props.pedido.usu_cpf = user;
+        props.pedido.usu_cpf = user;
+      }
     }
 
     if (props.show) load();

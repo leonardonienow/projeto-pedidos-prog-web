@@ -21,7 +21,6 @@ function App() {
   const [visibleModal, setVisibleModal] = React.useState(false);
   const [pedidoSelecionado, setPedidoSelecionado] = React.useState(undefined);
   const [listaPedidos, setListaPedidos] = React.useState([]);
-  const [atualizarListar, setAtualizarListar] = React.useState(false);
   const { user } = useContext(UserContext);
 
   React.useEffect(() => {
@@ -63,7 +62,7 @@ function App() {
     <Container>
       <HeaderStyle>
         <HeaderText>Pedidos</HeaderText>
-        <Button onClick={openIncludeOrder}>Adicionar Pedido</Button>
+        {user != 'admin' ? <Button onClick={openIncludeOrder}>Adicionar Pedido</Button> : <div/>}
       </HeaderStyle>
       <Divider />
       <Pedido

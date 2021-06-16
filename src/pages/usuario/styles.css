@@ -1,0 +1,12 @@
+.tabStyle {
+  color: #2f2041;
+}
+
+.tabStyle:hover {
+  color: #59486c;
+}
+
+.tabStyle:active {
+  color: #59486c;
+  box-shadow: #59486c;
+}

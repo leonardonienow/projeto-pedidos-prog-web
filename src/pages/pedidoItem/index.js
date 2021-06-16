@@ -7,6 +7,7 @@ import {
   ContainerFooterStyle,
   ContainerFooterRightButtonStyle,
   ContainerFooterLeftButtonStyle,
+  Divider,
 } from "./styles";
 import { Alert } from "bootstrap";
 
@@ -16,17 +17,12 @@ function PedidoItem(props) {
   const [refresh, setRefresh] = React.useState(false);
   const [listaProdutos, setListaProdutos] = React.useState([]);
 
-  React.useEffect(() => {
-    function load() {
-      let body = {};
-
-      axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
-        setListaProdutos(res.data.message);
-      });
-    }
-
-    if (props.show) load();
-  }, [props.show]);
+  function load(body) {
+    
+    axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
+      setListaProdutos(res.data.message || []);
+    });
+  }
 
   const AtualizarPagina = () => {
     setRefresh(!refresh);
@@ -42,7 +38,10 @@ function PedidoItem(props) {
       return;
     }
 
-    if (!props.pedidoItem.item_quantidade || props.pedidoItem.item_quantidade == 0) {
+    if (
+      !props.pedidoItem.item_quantidade ||
+      props.pedidoItem.item_quantidade == 0
+    ) {
       alert("Digite uma quantidade!");
       return;
     }
@@ -75,6 +74,16 @@ function PedidoItem(props) {
     AtualizarPagina();
   };
 
+  const handleOnChangeSearch = (e) => {
+    const { value } = e.target;
+
+    let body = {
+      pesquisa: value,
+    };
+    console.log('OI');
+    load(body);
+  };
+
   const handleButtonExcluir = () => {
     let body = {
       pedidoItem: props.pedidoItem,
@@ -99,6 +108,24 @@ function PedidoItem(props) {
       <Modal.Body>
         <ContainerTabStyle>
           <Form>
+            <Form.Group as={Row}>
+              <Form.Label column size="sm" sm="3">
+                Pesquisa:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  name="item_quantidade"
+                  disabled={!props.including}
+                  column
+                  onChange={handleOnChangeSearch}
+                  size="sm"
+                  sm="1"
+                  type="input"
+                  placeholder="Pesquisa por: nome, valor, categoria..."
+                />
+              </Col>
+            </Form.Group>
+            <Divider />
             <Form.Group as={Row}>
               <Form.Label column size="sm" sm="3">
                 Produto:

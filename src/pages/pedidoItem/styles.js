@@ -21,7 +21,7 @@ export const ContainerFooterLeftButtonStyle = styled.div`
 export const ContainerTabStyle = styled.div`
     flex-direction: column;
     width: 470px;
-    height: 150px;
+    height: 220px;
     white-space: nowrap;
     padding: 15px 15px 15px 5px;
 `;
@@ -79,7 +79,7 @@ export const HeaderText = styled.span`
 export const Divider = styled.div`
     display: flex;
     height: 1px;
-    margin: 5px 0px 10px;
+    margin: 5px 0px 15px 10px;
     background-color: #bfbfbf;
     text-align: center;
 `;
