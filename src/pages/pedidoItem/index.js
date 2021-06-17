@@ -20,6 +20,7 @@ function PedidoItem(props) {
   function load(body) {
     
     axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
+      
       setListaProdutos(res.data.message || []);
     });
   }
@@ -80,7 +81,7 @@ function PedidoItem(props) {
     let body = {
       pesquisa: value,
     };
-    console.log('OI');
+    
     load(body);
   };
 

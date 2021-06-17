@@ -44,7 +44,7 @@ function App() {
     axios
       .post(`http://localhost:3333/login`, body)
       .then((res) => {
-        console.log(res);
+        
         if (res.data.status == "200") {
           setUserAuthenticated(res.data.message);
           history.push("/login");
@@ -66,7 +66,6 @@ function App() {
   };
 
   const forgotPassword = () => {
-    console.log('oi')
     history.push("/meu-perfil");
   }
 
@@ -94,6 +93,9 @@ function App() {
         <ContainerBotoes>
           <Button variant="primary" type="submit">
             Logar
+          </Button>
+          <Button variant="primary" onClick={forgotPassword}>
+            Registrar-se
           </Button>
           <Button variant="primary" onClick={forgotPassword}>
             Esqueci minha senha

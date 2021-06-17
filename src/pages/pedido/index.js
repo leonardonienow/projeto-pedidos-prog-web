@@ -1,4 +1,8 @@
 import React from "react";
+import { UserContext } from "../../context/user";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import { Impressao } from "../gerador-pdf/index";
 import {
   Modal,
   Tab,
@@ -24,7 +28,6 @@ import {
   TableBody,
 } from "./styles";
 import "./styles.css";
-import { UserContext } from "../../context/user";
 
 function Pedido(props) {
   let refSelect = React.createRef();
@@ -35,13 +38,14 @@ function Pedido(props) {
   const [pedidoItemSelecionado, setPedidoItemSelecionado] =
     React.useState(undefined);
   const { user } = React.useContext(UserContext);
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   React.useEffect(() => {
     function load() {
       let body = {
         pedidoItem: props.pedido,
       };
-      if (user != 'admin') {
+      if (user != "admin") {
         axios
           .post(`http://localhost:3333/pedido_item/listar`, body)
           .then((res) => {
@@ -113,6 +117,12 @@ function Pedido(props) {
             props.onHide();
           });
       });
+  };
+
+  const handleButtonGerarPDF = async () => {
+    const classeImpressao = new Impressao(listaProdutos);
+    const documento = await classeImpressao.PreparaDocumento();
+    pdfMake.createPdf(documento).open({}, window.open("", "_blank"));
   };
 
   const handleButtonAdcionarProduto = () => {
@@ -259,6 +269,7 @@ function Pedido(props) {
         <ContainerFooterStyle>
           <ContainerFooterLeftButtonStyle>
             <Button onClick={handleButtonExcluir}>Excluir</Button>
+            <Button onClick={handleButtonGerarPDF}>Gerar PDF</Button>
           </ContainerFooterLeftButtonStyle>
           <ContainerFooterRightButtonStyle>
             <Button onClick={handleButtonSalvar}>Salvar</Button>

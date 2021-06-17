@@ -9,6 +9,7 @@ import {
   ContainerFooterLeftButtonStyle,
 } from "./styles";
 import "./styles.css";
+import { Alert } from "bootstrap";
 
 function Produto(props) {
   const [refresh, setRefresh] = React.useState(false);
@@ -23,7 +24,7 @@ function Produto(props) {
       setCategorias(res.data.message || []);
     });
 
-    console.log(categorias);
+    
   }, []);
 
   // #region Funções
@@ -47,7 +48,7 @@ function Produto(props) {
 
     AtualizarPagina();
   };
-  
+
   const handleButtonExcluir = () => {
     let body = {
       produto: props.produto,
@@ -58,6 +59,30 @@ function Produto(props) {
     });
 
     props.onHide();
+  };
+
+  const handleButtonEnviarPromocao = () => {
+    let body = {
+      usu_ativo: "S",
+    };
+
+    axios.post(`http://localhost:3333/usuario/listar`, body).then((res) => {
+      
+      let emails = '';
+        res.data.message.forEach(element => {
+          console.log(element.usu_email)
+          emails += element.usu_email + ', ';
+        });
+
+      body = {
+        email: emails,
+        mensagem: `${props.produto.pro_descricao} está em promoção por apenas R$ ${props.produto.pro_valor} aproveite!! =)`,
+      };
+      console.log(body)
+      axios.post(`http://localhost:3333/send-email`, body).then((res) => {});
+    });
+
+    alert("Promoção enviada com sucesso!");
   };
 
   const RetornaCategoriaSelecionada = () => {
@@ -168,6 +193,9 @@ function Produto(props) {
         <ContainerFooterStyle>
           <ContainerFooterLeftButtonStyle>
             <Button onClick={handleButtonExcluir}>Excluir</Button>
+            <Button onClick={handleButtonEnviarPromocao}>
+              Enviar Promoção
+            </Button>
           </ContainerFooterLeftButtonStyle>
           <ContainerFooterRightButtonStyle>
             <Button onClick={handleButtonSalvar}>Salvar</Button>

@@ -43,7 +43,7 @@ function Produto(props) {
       usuario: props.usuario,
       cpf_anterior: cpfAnterior,
     };
-    console.log(body);
+    
     axios.put(`http://localhost:3333/usuario`, body).then((res) => {
       props.onHide();
     });

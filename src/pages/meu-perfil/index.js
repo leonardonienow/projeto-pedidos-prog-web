@@ -16,9 +16,8 @@ import {
 import { UserContext } from "../../context/user";
 
 function App() {
-  const [produtoSelecionado, setProdutoSelecionado] = React.useState(undefined);
   const [usuario, setUsuario] = React.useState({ usu_ativo: "S" });
-  const [esqueceuASenha, setEsqueceuASenha] = React.useState(false);
+  const [registrando, setregistrando] = React.useState(false);
   const { user } = React.useContext(UserContext);
   const history = useHistory();
 
@@ -30,10 +29,10 @@ function App() {
 
       axios.post(`http://localhost:3333/meu-perfil`, body).then((res) => {
         setUsuario(res.data.message);
-        console.log(usuario);
+        
       });
     } else {
-      setEsqueceuASenha(true);
+      setregistrando(true);
     }
   }, []);
 
@@ -48,15 +47,10 @@ function App() {
     } else if (name == "usu_senha") {
       setUsuario((prevState) => ({ ...prevState, usu_senha: valor }));
     }
-
-    //AtualizarPagina();
-  };
-  const handleButtonFechar = () => {
-    ///props.onHide();
   };
 
   const handleButtonSalvar = () => {
-    if (!esqueceuASenha) {
+    if (!registrando) {
       let body = {
         usuario: usuario,
         cpf_anterior: usuario.usu_cpf,
@@ -71,25 +65,24 @@ function App() {
       };
 
       axios.post(`http://localhost:3333/usuario`, body).then((res) => {
+        if (res == undefined) {
+          let body = {
+            usuario: usuario,
+            cpf_anterior: usuario.usu_cpf,
+          };
+        }
+        axios.put(`http://localhost:3333/usuario`, body).then((res) => {
+          history.push("/");
+        });
         history.push("/");
       });
     }
   };
 
-  const handleButtonExcluir = () => {
-    // let body = {
-    //   produto: props.produto,
-    // };
-    // axios.delete(`http://localhost:3333/produtos`, {
-    //   data: body,
-    // });
-    // props.onHide();
-  };
-
   return (
     <Container>
       <HeaderStyle>
-        <HeaderText>Meu Perfil</HeaderText>
+        <HeaderText>{!registrando ? "Meu Perfil" : "Registro"}</HeaderText>
       </HeaderStyle>
       <Divider />
       <Form>
