@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import axios from "axios";
 import { Table } from "react-bootstrap";
 import {
@@ -56,7 +56,7 @@ function App() {
   };
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     let valor = value;
 
     setPesquisa(valor);

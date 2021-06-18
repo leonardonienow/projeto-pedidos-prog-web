@@ -8,7 +8,6 @@ import {
   Tab,
   Tabs,
   Table,
-  Dropdown,
   Form,
   Col,
   Row,
@@ -47,7 +46,7 @@ function Pedido(props) {
         pedidoItem: props.pedido,
       };
       axios
-        .post(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item/listar`, body)
+        .post(`http://localhost:3333/pedido_item/listar`, body)
         .then((res) => {
           setListaProdutos(res.data.message);
         });
@@ -74,11 +73,11 @@ function Pedido(props) {
     };
 
     if (props.including) {
-      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
+      axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
         props.onHide();
       });
     } else {
-      axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
+      axios.put(`http://localhost:3333/pedidos`, body).then((res) => {
         props.onHide();
       });
     }
@@ -102,7 +101,7 @@ function Pedido(props) {
     };
 
     axios
-      .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item`, {
+      .delete(`http://localhost:3333/pedido_item`, {
         data: body,
       })
       .then((res) => {
@@ -111,7 +110,7 @@ function Pedido(props) {
         };
 
         axios
-          .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, {
+          .delete(`http://localhost:3333/pedidos`, {
             data: body,
           })
           .then((res) => {
