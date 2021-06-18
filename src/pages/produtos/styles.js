@@ -72,3 +72,13 @@ export const Button = styled.button`
     background-color: #59486c;
   }
 `;
+
+export const Label = styled.label`
+  margin: 5px;
+  
+`;
+
+export const Input = styled.input`
+  margin: 5px;
+  
+`;

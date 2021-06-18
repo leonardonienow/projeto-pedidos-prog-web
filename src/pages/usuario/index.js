@@ -22,11 +22,13 @@ function Produto(props) {
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/meu-perfil`, body).then((res) => {
+      console.log(res.data)
       setCpfAnterior(
         res.data.message != undefined && res.data.message.length > 0
           ? res.data.message[0].usu_cpf
           : ""
       );
+      console.log(cpfAnterior)
     });
   }, [props.show]);
 
@@ -43,7 +45,7 @@ function Produto(props) {
       usuario: props.usuario,
       cpf_anterior: cpfAnterior,
     };
-    
+    console.log(body)
     axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
       props.onHide();
     });

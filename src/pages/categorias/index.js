@@ -11,7 +11,8 @@ import {
   Container,
   HeaderStyle,
   Button,
-  
+  Label,
+  Input
 } from "./styles";
 import Categoria from "../categoria/index";
 
@@ -20,10 +21,13 @@ function App() {
   const [categoriaSelecionado, setCategoriaSelecionado] =
     React.useState(undefined);
   const [listaCategorias, setListaCategorias] = React.useState([]);
+  const [ativo, setAtivo] = React.useState(true);
+  const [pesquisa, setPesquisa] = React.useState("");
 
   React.useEffect(() => {
     let body = {
-      cat_ativa: "S",
+      cat_ativa: ativo? "S" : "N",
+      pesquisa: "",
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
@@ -40,13 +44,34 @@ function App() {
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria`, body).then((res) => {
-      body = {
-        cat_ativa: "S",
+      let body = {
+        cat_ativa: ativo? "S" : "N",
+        pesquisa: "",
       };
 
       axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
         setListaCategorias(res.data.message || []);
       });
+    });
+  };
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    let valor = value;
+
+    setPesquisa(valor);
+  };
+
+  const handlePesquisar = (e) => {
+    e.preventDefault();
+
+    let body = {
+      cat_ativa: ativo ? "S" : "N",
+      pesquisa: pesquisa,
+    };
+
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
+      setListaCategorias(res.data.message || []);
     });
   };
 
@@ -56,6 +81,32 @@ function App() {
         <HeaderText>Categorias</HeaderText>
         <Button onClick={openIncludeCategoria}>Adicionar Categoria</Button>
       </HeaderStyle>
+      <Divider />
+      <form>
+        <Label>
+          Pesquisar:
+          <Input
+            placeholder="Pesquisa por codigo, descrição.."
+            name="isGoing"
+            type="input"
+            onChange={handleOnChange}
+          />
+        </Label>
+        <Label>
+          Ativos:
+          <Input
+            name="isGoing"
+            type="checkbox"
+            onChange={() => {
+              setAtivo(!ativo);
+            }}
+            checked={ativo}
+          />
+        </Label>
+        <Button onClick={handlePesquisar} >
+          Pesquisar
+        </Button>
+      </form>
       <Divider />
       <Categoria
         onHide={() => setVisibleModal(false)}

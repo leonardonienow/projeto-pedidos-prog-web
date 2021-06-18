@@ -31,6 +31,7 @@ import "./styles.css";
 
 function Pedido(props) {
   let refSelect = React.createRef();
+  let refSelect2 = React.createRef();
   const [refresh, setRefresh] = React.useState(false);
   const [listaProdutos, setListaProdutos] = React.useState([]);
   const [visibleModal, setVisibleModal] = React.useState(false);
@@ -208,6 +209,26 @@ function Pedido(props) {
                         AtualizarPagina();
                       }}
                       value={props.pedido.ped_entregue}
+                    >
+                      <option value="S">SIM</option>
+                      <option value="N">NÃO</option>
+                    </Form.Control>
+                  </Col>
+                </Form.Group>
+                <Form.Group as={Row}>
+                  <Form.Label column size="sm" sm="2">
+                    Ativo:
+                  </Form.Label>
+                  <Col>
+                    <Form.Control
+                      custom
+                      as="select"
+                      ref={refSelect2}
+                      onChange={(ref) => {
+                        props.pedido.ped_ativo = refSelect2.current.value;
+                        AtualizarPagina();
+                      }}
+                      value={props.pedido.ped_ativo}
                     >
                       <option value="S">SIM</option>
                       <option value="N">NÃO</option>

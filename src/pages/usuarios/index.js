@@ -11,6 +11,8 @@ import {
   Container,
   HeaderStyle,
   Button,
+  Label,
+  Input
 } from "./styles";
 import Usuario from "../usuario/index";
 
@@ -19,10 +21,13 @@ function App() {
   const [usuarioSelecionado, setUsuarioSelecionado] =
     React.useState(undefined);
   const [listaUsuarios, setlistaUsuarios] = React.useState([]);
+  const [ativo, setAtivo] = React.useState(true);
+  const [pesquisa, setPesquisa] = React.useState("");
 
   React.useEffect(() => {
     let body = {
-      usu_ativo: "S",
+      usu_ativo: ativo ? "S" : "N",
+      pesquisa: pesquisa,
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
@@ -42,12 +47,33 @@ function App() {
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
       body = {
-        usu_ativo: "S",
+        usu_ativo: ativo ? "S" : "N",
+        pesquisa: pesquisa,
       };
 
       axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
         setlistaUsuarios(res.data.message || []);
       });
+    });
+  };
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    let valor = value;
+
+    setPesquisa(valor);
+  };
+
+  const handlePesquisar = (e) => {
+    e.preventDefault();
+
+    let body = {
+      usu_ativo: ativo ? "S" : "N",
+      pesquisa: pesquisa,
+    };
+
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
+      setlistaUsuarios(res.data.message || []);
     });
   };
 
@@ -57,6 +83,32 @@ function App() {
         <HeaderText>Usuário</HeaderText>
         <Button onClick={openIncludeUser}>Adicionar Usuário</Button>
       </HeaderStyle>
+      <Divider />
+      <form>
+        <Label>
+          Pesquisar:
+          <Input
+            placeholder="Pesquisa por cpf, descrição.."
+            name="isGoing"
+            type="input"
+            onChange={handleOnChange}
+          />
+        </Label>
+        <Label>
+          Ativos:
+          <Input
+            name="isGoing"
+            type="checkbox"
+            onChange={() => {
+              setAtivo(!ativo);
+            }}
+            checked={ativo}
+          />
+        </Label>
+        <Button onClick={handlePesquisar} >
+          Pesquisar
+        </Button>
+      </form>
       <Divider />
       <Usuario
         onHide={() => setVisibleModal(false)}

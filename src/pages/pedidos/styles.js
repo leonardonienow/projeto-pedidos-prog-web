@@ -74,3 +74,13 @@ export const HeaderStyle = styled.div`
     align-items: center;
     max-height: 50px;
 `;
+
+export const Label = styled.label`
+  margin: 5px;
+  
+`;
+
+export const Input = styled.input`
+  margin: 5px;
+  
+`;

@@ -25,6 +25,7 @@ export default ({ children }) =>
         window.localStorage.removeItem('authenticated');
         window.localStorage.removeItem('user');
         setAuthenticated(null);
+        setUser(null);
     }, []);
 
     const defaultValues = {

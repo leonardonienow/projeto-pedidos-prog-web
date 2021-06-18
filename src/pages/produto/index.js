@@ -14,17 +14,17 @@ import { Alert } from "bootstrap";
 function Produto(props) {
   const [refresh, setRefresh] = React.useState(false);
   const [categorias, setCategorias] = React.useState([]);
+  let refSelect2 = React.useRef();
 
   React.useEffect(() => {
     let body = {
       cat_ativa: "S",
+      pesquisa: "",
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
       setCategorias(res.data.message || []);
     });
-
-    
   }, []);
 
   // #region Funções
@@ -64,30 +64,30 @@ function Produto(props) {
   const handleButtonEnviarPromocao = () => {
     let body = {
       usu_ativo: "S",
+      pesquisa: "",
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
-      
-      let emails = '';
-        res.data.message.forEach(element => {
-          console.log(element.usu_email)
-          emails += element.usu_email + ', ';
-        });
+      let emails = "";
+      res.data.message.forEach((element) => {
+        console.log(element.usu_email);
+        emails += element.usu_email + ", ";
+      });
 
       body = {
         email: emails,
         mensagem: `${props.produto.pro_descricao} está em promoção por apenas R$ ${props.produto.pro_valor} aproveite!! =)`,
       };
-      console.log(body)
-      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/send-email`, body).then((res) => {});
+      console.log(body);
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/send-email`, body).then((res) => {
+        alert("Promoção enviada com sucesso!");
+      });
     });
-
-    alert("Promoção enviada com sucesso!");
   };
 
   const RetornaCategoriaSelecionada = () => {
     let categoriaSelecionada = categorias.find(
-      (element) => element.cat_id == props.produto.cat_id
+      (element) => element.cat_codigo == props.produto.cat_codigo
     );
 
     if (categoriaSelecionada) {
@@ -173,9 +173,9 @@ function Produto(props) {
                   <Dropdown.Menu size="sm">
                     {categorias.map((item) => (
                       <Dropdown.Item
-                        eventKey={item.cat_id}
+                        eventKey={item.cat_codigo}
                         onSelect={(item) => {
-                          props.produto.cat_id = item;
+                          props.produto.cat_codigo = item;
                           AtualizarPagina();
                         }}
                       >
@@ -184,6 +184,26 @@ function Produto(props) {
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+              <Form.Label column size="sm" sm="2">
+                Ativo:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  custom
+                  as="select"
+                  ref={refSelect2}
+                  onChange={(ref) => {
+                    props.produto.pro_ativo = refSelect2.current.value;
+                    AtualizarPagina();
+                  }}
+                  value={props.produto.pro_ativo}
+                >
+                  <option value="S">SIM</option>
+                  <option value="N">NÃO</option>
+                </Form.Control>
               </Col>
             </Form.Group>
           </Form>

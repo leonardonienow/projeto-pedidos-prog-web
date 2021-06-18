@@ -10,6 +10,8 @@ import {
   Container,
   Button,
   HeaderStyle,
+  Label,
+  Input,
 } from "./styles";
 import Pedido from "../pedido/index";
 import axios from "axios";
@@ -21,12 +23,33 @@ function App() {
   const [visibleModal, setVisibleModal] = React.useState(false);
   const [pedidoSelecionado, setPedidoSelecionado] = React.useState(undefined);
   const [listaPedidos, setListaPedidos] = React.useState([]);
+  const [ativo, setAtivo] = React.useState(true);
+  const [entregue, setEntregue] = React.useState(false);
+  const [pesquisa, setPesquisa] = React.useState("");
   const { user } = useContext(UserContext);
+
+  const handlePesquisar = (e) => {
+    e.preventDefault();
+
+    let body = {
+      pesquisa: pesquisa,
+      entregue: entregue ? "S" : "N",
+      ativo: ativo ? "S" : "N",
+      usu_cpf: user,
+    };
+
+    console.log(body);
+
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos/listar`, body).then((res) => {
+      setListaPedidos(res.data.message || []);
+    });
+  };
 
   React.useEffect(() => {
     let body = {
-      entregue: "N",
-      ativo: "S",
+      pesquisa: pesquisa,
+      entregue: entregue ? "S" : "N",
+      ativo: ativo ? "S" : "N",
       usu_cpf: user,
     };
 
@@ -46,9 +69,10 @@ function App() {
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
-      body = {
-        entregue: "N",
-        ativo: "S",
+      let body = {
+        pesquisa: pesquisa,
+        entregue: entregue ? "S" : "N",
+        ativo: ativo ? "S" : "N",
         usu_cpf: user,
       };
 
@@ -56,6 +80,13 @@ function App() {
         setListaPedidos(res.data.message || []);
       });
     });
+  };
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    let valor = value;
+
+    setPesquisa(valor);
   };
 
   return (
@@ -75,6 +106,42 @@ function App() {
         show={visibleModal}
         including={including}
       />
+      <form>
+        <Label>
+          Pesquisar:
+          <Input
+            placeholder="Pesquisa por código, cpf.."
+            name="isGoing"
+            type="input"
+            onChange={handleOnChange}
+          />
+        </Label>
+        <Label>
+          Ativos:
+          <Input
+            name="isGoing"
+            type="checkbox"
+            onChange={() => {
+              setAtivo(!ativo);
+            }}
+            checked={ativo}
+          />
+        </Label>
+        <Label>
+          Entregue:
+          <Input
+            name="isGoing"
+            type="checkbox"
+            onChange={() => {
+              setEntregue(!entregue);
+            }}
+          />
+        </Label>
+        <Button onClick={handlePesquisar} >
+          Pesquisar
+        </Button>
+      </form>
+      <Divider />
       <Table striped bordered hover size="sm">
         <TableHeader>
           <Linha>

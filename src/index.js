@@ -15,3 +15,7 @@ ReactDOM.render(
 
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+//https://projeto-pedidos-prog-web-api.vercel.app
+//http://localhost:3333

@@ -18,7 +18,7 @@ import { UserContext } from "../../context/user";
 function App() {
   const [usuario, setUsuario] = React.useState({ usu_ativo: "S" });
   const [registrando, setregistrando] = React.useState(false);
-  const { user } = React.useContext(UserContext);
+  const { user, autheticated } = React.useContext(UserContext);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -26,7 +26,7 @@ function App() {
       let body = {
         cpf: user,
       };
-
+      console.log('oi')
       axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/meu-perfil`, body).then((res) => {
         setUsuario(res.data.message);
         
@@ -66,7 +66,7 @@ function App() {
 
       axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
         if (res == undefined) {
-          let body = {
+          body = {
             usuario: usuario,
             cpf_anterior: usuario.usu_cpf,
           };
@@ -110,6 +110,7 @@ function App() {
             <Form.Control
               name="usu_email"
               onChange={handleOnChange}
+              type='email'
               column
               size="sm"
               sm="1"

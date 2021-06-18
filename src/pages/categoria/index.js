@@ -93,7 +93,7 @@ function Produto(props) {
             </Form.Group>
             <Form.Group as={Row}>
               <Form.Label column size="sm" sm="2">
-                Categoria:
+                Ativo:
               </Form.Label>
               <Col>
                 <Dropdown>

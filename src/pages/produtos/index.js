@@ -11,6 +11,8 @@ import {
   Container,
   HeaderStyle,
   Button,
+  Label, 
+  Input,
 } from "./styles";
 import Produto from "../produto/index";
 
@@ -18,10 +20,13 @@ function App() {
   const [visibleModal, setVisibleModal] = React.useState(false);
   const [produtoSelecionado, setProdutoSelecionado] = React.useState(undefined);
   const [listaProdutos, setListaProdutos] = React.useState([]);
+  const [ativo, setAtivo] = React.useState(true);
+  const [pesquisa, setPesquisa] = React.useState("");
 
   React.useEffect(() => {
     let body = {
-      pro_ativo: "S",
+      ativo: ativo ? "S" : "N",
+      pesquisa: pesquisa,
     };
 
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
@@ -41,7 +46,8 @@ function App() {
     };
     axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos`, body).then((res) => {
       body = {
-        pro_ativo: "S",
+        ativo: ativo ? "S" : "N",
+        pesquisa: pesquisa,
       };
 
       axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
@@ -50,12 +56,58 @@ function App() {
     });
   };
 
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    let valor = value;
+
+    setPesquisa(valor);
+  };
+
+  const handlePesquisar = (e) => {
+    e.preventDefault();
+
+    let body = {
+      ativo: ativo ? "S" : "N",
+      pesquisa: pesquisa,
+    };
+
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
+      setListaProdutos(res.data.message || []);
+    });
+  };
+  
   return (
     <Container>
       <HeaderStyle>
         <HeaderText>Produtos</HeaderText>
         <Button onClick={openIncludeOrder}>Adicionar Produto</Button>
       </HeaderStyle>
+      <Divider />
+      <form>
+        <Label>
+          Pesquisar:
+          <Input
+            placeholder="Pesquisa por codigo, descrição.."
+            name="isGoing"
+            type="input"
+            onChange={handleOnChange}
+          />
+        </Label>
+        <Label>
+          Ativos:
+          <Input
+            name="isGoing"
+            type="checkbox"
+            onChange={() => {
+              setAtivo(!ativo);
+            }}
+            checked={ativo}
+          />
+        </Label>
+        <Button onClick={handlePesquisar} >
+          Pesquisar
+        </Button>
+      </form>
       <Divider />
       <Produto
         onHide={() => setVisibleModal(false)}
