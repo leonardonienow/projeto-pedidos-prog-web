@@ -30,7 +30,7 @@ function App() {
       usu_cpf: user,
     };
 
-    axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos/listar`, body).then((res) => {
       setListaPedidos(res.data.message || []);
     });
   }, [visibleModal]);
@@ -45,14 +45,14 @@ function App() {
       },
     };
 
-    axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
       body = {
         entregue: "N",
         ativo: "S",
         usu_cpf: user,
       };
 
-      axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos/listar`, body).then((res) => {
         setListaPedidos(res.data.message || []);
       });
     });
@@ -62,7 +62,11 @@ function App() {
     <Container>
       <HeaderStyle>
         <HeaderText>Pedidos</HeaderText>
-        {user != 'admin' ? <Button onClick={openIncludeOrder}>Adicionar Pedido</Button> : <div/>}
+        {user != "admin" ? (
+          <Button onClick={openIncludeOrder}>Adicionar Pedido</Button>
+        ) : (
+          <div />
+        )}
       </HeaderStyle>
       <Divider />
       <Pedido

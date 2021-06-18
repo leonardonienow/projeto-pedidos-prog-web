@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Tab, Tabs, Table, Form, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import {
+  ButtonPesquisa,
   Button,
   ContainerTabStyle,
   ContainerFooterStyle,
@@ -16,10 +17,11 @@ function PedidoItem(props) {
   let refValorTotal = React.createRef();
   const [refresh, setRefresh] = React.useState(false);
   const [listaProdutos, setListaProdutos] = React.useState([]);
+  const [pesquisa, setPesquisa] = React.useState('');
 
   function load(body) {
     
-    axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
       
       setListaProdutos(res.data.message || []);
     });
@@ -33,6 +35,15 @@ function PedidoItem(props) {
     props.onHide();
   };
 
+  const handlePesquisaProduto = (e) => {
+    e.preventDefault();
+    let body = {
+      pesquisa: pesquisa,
+    };
+    console.log(body)
+    load(body);
+  };
+  
   const handleButtonSalvar = () => {
     if (!props.pedidoItem.pro_codigo || props.pedidoItem == "S") {
       alert("Selecione um produto!");
@@ -52,11 +63,11 @@ function PedidoItem(props) {
     };
 
     if (props.including) {
-      axios.post(`http://localhost:3333/pedido_item`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item`, body).then((res) => {
         props.onHide();
       });
     } else {
-      axios.put(`http://localhost:3333/pedido_item`, body).then((res) => {
+      axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item`, body).then((res) => {
         props.onHide();
       });
     }
@@ -78,11 +89,9 @@ function PedidoItem(props) {
   const handleOnChangeSearch = (e) => {
     const { value } = e.target;
 
-    let body = {
-      pesquisa: value,
-    };
+    setPesquisa(value);
+    console.log(pesquisa)
     
-    load(body);
   };
 
   const handleButtonExcluir = () => {
@@ -91,7 +100,7 @@ function PedidoItem(props) {
     };
 
     axios
-      .delete(`http://localhost:3333/pedido_item`, {
+      .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item`, {
         data: body,
       })
       .then((res) => {
@@ -125,6 +134,7 @@ function PedidoItem(props) {
                   placeholder="Pesquisa por: nome, valor, categoria..."
                 />
               </Col>
+            <ButtonPesquisa disabled={!props.including} onClick={handlePesquisaProduto}>Pesquisar</ButtonPesquisa>
             </Form.Group>
             <Divider />
             <Form.Group as={Row}>

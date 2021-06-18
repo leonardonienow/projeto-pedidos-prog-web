@@ -42,7 +42,7 @@ function App() {
     };
 
     axios
-      .post(`http://localhost:3333/login`, body)
+      .post(`https://projeto-pedidos-prog-web-api.vercel.app/login`, body)
       .then((res) => {
         
         if (res.data.status == "200") {

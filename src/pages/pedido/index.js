@@ -45,13 +45,13 @@ function Pedido(props) {
       let body = {
         pedidoItem: props.pedido,
       };
-      if (user != "admin") {
-        axios
-          .post(`http://localhost:3333/pedido_item/listar`, body)
-          .then((res) => {
-            setListaProdutos(res.data.message);
-          });
+      axios
+        .post(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item/listar`, body)
+        .then((res) => {
+          setListaProdutos(res.data.message);
+        });
 
+      if (user != "admin") {
         props.pedido.usu_cpf = user;
       }
     }
@@ -73,11 +73,11 @@ function Pedido(props) {
     };
 
     if (props.including) {
-      axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
         props.onHide();
       });
     } else {
-      axios.put(`http://localhost:3333/pedidos`, body).then((res) => {
+      axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
         props.onHide();
       });
     }
@@ -101,7 +101,7 @@ function Pedido(props) {
     };
 
     axios
-      .delete(`http://localhost:3333/pedido_item`, {
+      .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item`, {
         data: body,
       })
       .then((res) => {
@@ -110,7 +110,7 @@ function Pedido(props) {
         };
 
         axios
-          .delete(`http://localhost:3333/pedidos`, {
+          .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, {
             data: body,
           })
           .then((res) => {

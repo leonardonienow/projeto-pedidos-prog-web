@@ -28,7 +28,7 @@ function Produto(props) {
       categoria: props.categoria,
     };
 
-    axios.put(`http://localhost:3333/categoria`, body).then((res) => {
+    axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/categoria`, body).then((res) => {
       props.onHide();
     });
   };
@@ -38,7 +38,7 @@ function Produto(props) {
       categoria: props.categoria,
     };
 
-    axios.delete(`http://localhost:3333/categoria`, {
+    axios.delete(`https://projeto-pedidos-prog-web-api.vercel.app/categoria`, {
       data: body,
     });
 

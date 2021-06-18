@@ -58,6 +58,29 @@ export const Button = styled.button`
   }
 `;
 
+export const ButtonPesquisa = styled.button`
+max-width: 200px;
+margin: -3px;
+border-color: #2f2041;
+background-color: #2f2041;
+padding: 5px 10px 5px 10px;
+color: #fff;
+border-radius: 5px;
+align-self: center;
+
+&:hover {
+margin: -3px;
+border-color: #59486c;
+background-color: #59486c;
+}
+
+&:focus {
+margin: -3px;
+border-color: #59486c;
+background-color: #59486c;
+}
+`;
+
 export const Container = styled.div`
     flex: 1;
     padding: 15px;
