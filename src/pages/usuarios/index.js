@@ -30,7 +30,7 @@ function App() {
       pesquisa: pesquisa,
     };
 
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
+    axios.post(`http://localhost:3333/usuario/listar`, body).then((res) => {
       setlistaUsuarios(res.data.message || []);
     });
   }, [visibleModal]);
@@ -45,13 +45,13 @@ function App() {
       },
     };
 
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
+    axios.post(`http://localhost:3333/usuario`, body).then((res) => {
       body = {
         usu_ativo: ativo ? "S" : "N",
         pesquisa: pesquisa,
       };
 
-      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
+      axios.post(`http://localhost:3333/usuario/listar`, body).then((res) => {
         setlistaUsuarios(res.data.message || []);
       });
     });
@@ -72,7 +72,7 @@ function App() {
       pesquisa: pesquisa,
     };
 
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
+    axios.post(`http://localhost:3333/usuario/listar`, body).then((res) => {
       setlistaUsuarios(res.data.message || []);
     });
   };

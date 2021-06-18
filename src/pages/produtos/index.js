@@ -29,7 +29,7 @@ function App() {
       pesquisa: pesquisa,
     };
 
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
+    axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
       setListaProdutos(res.data.message || []);
     });
   }, [visibleModal]);
@@ -44,13 +44,13 @@ function App() {
         pro_ativo: "S",
       },
     };
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos`, body).then((res) => {
+    axios.post(`http://localhost:3333/produtos`, body).then((res) => {
       body = {
         ativo: ativo ? "S" : "N",
         pesquisa: pesquisa,
       };
 
-      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
+      axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
         setListaProdutos(res.data.message || []);
       });
     });
@@ -71,7 +71,7 @@ function App() {
       pesquisa: pesquisa,
     };
 
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/produtos/listar`, body).then((res) => {
+    axios.post(`http://localhost:3333/produtos/listar`, body).then((res) => {
       setListaProdutos(res.data.message || []);
     });
   };
