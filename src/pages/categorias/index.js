@@ -30,12 +30,14 @@ function App() {
       pesquisa: "",
     };
 
-    axios.post(`http://localhost:3333/categoria/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
       setListaCategorias(res.data.message || []);
     });
   }, [visibleModal]);
 
-  const openIncludeCategoria = () => {
+  const openIncludeCategoria = (e) => {
+    e.preventDefault();
+
     let body = {
       categoria: {
         cat_descricao: "Descrição temporária",
@@ -43,13 +45,13 @@ function App() {
       },
     };
 
-    axios.post(`http://localhost:3333/categoria`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria`, body).then((res) => {
       let body = {
         cat_ativa: ativo? "S" : "N",
         pesquisa: "",
       };
 
-      axios.post(`http://localhost:3333/categoria/listar`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
         setListaCategorias(res.data.message || []);
       });
     });
@@ -70,7 +72,7 @@ function App() {
       pesquisa: pesquisa,
     };
 
-    axios.post(`http://localhost:3333/categoria/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
       setListaCategorias(res.data.message || []);
     });
   };

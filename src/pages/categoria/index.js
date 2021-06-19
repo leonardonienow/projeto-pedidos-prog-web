@@ -23,22 +23,24 @@ function Produto(props) {
     props.onHide();
   };
 
-  const handleButtonSalvar = () => {
+  const handleButtonSalvar = (e) => {
+    e.preventDefault();
     let body = {
       categoria: props.categoria,
     };
 
-    axios.put(`http://localhost:3333/categoria`, body).then((res) => {
+    axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/categoria`, body).then((res) => {
       props.onHide();
     });
   };
 
-  const handleButtonExcluir = () => {
+  const handleButtonExcluir = (e) => {
+    e.preventDefault();
     let body = {
       categoria: props.categoria,
     };
 
-    axios.delete(`http://localhost:3333/categoria`, {
+    axios.delete(`https://projeto-pedidos-prog-web-api.vercel.app/categoria`, {
       data: body,
     });
 

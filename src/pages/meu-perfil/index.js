@@ -26,8 +26,8 @@ function App() {
       let body = {
         cpf: user,
       };
-      console.log('oi')
-      axios.post(`http://localhost:3333/meu-perfil`, body).then((res) => {
+      
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/meu-perfil`, body).then((res) => {
         setUsuario(res.data.message);
         
       });
@@ -49,14 +49,15 @@ function App() {
     }
   };
 
-  const handleButtonSalvar = () => {
+  const handleButtonSalvar = (e) => {
+    e.preventDefault();
     if (!registrando) {
       let body = {
         usuario: usuario,
         cpf_anterior: usuario.usu_cpf,
       };
 
-      axios.put(`http://localhost:3333/usuario`, body).then((res) => {
+      axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
         history.push("/");
       });
     } else {
@@ -64,14 +65,14 @@ function App() {
         usuario: usuario,
       };
 
-      axios.post(`http://localhost:3333/usuario`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
         if (res == undefined) {
           body = {
             usuario: usuario,
             cpf_anterior: usuario.usu_cpf,
           };
         }
-        axios.put(`http://localhost:3333/usuario`, body).then((res) => {
+        axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
           history.push("/");
         });
         history.push("/");

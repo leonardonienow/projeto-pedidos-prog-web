@@ -46,7 +46,7 @@ function Pedido(props) {
         pedidoItem: props.pedido,
       };
       axios
-        .post(`http://localhost:3333/pedido_item/listar`, body)
+        .post(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item/listar`, body)
         .then((res) => {
           setListaProdutos(res.data.message);
         });
@@ -67,17 +67,18 @@ function Pedido(props) {
     props.onHide();
   };
 
-  const handleButtonSalvar = () => {
+  const handleButtonSalvar = (e) => {
+    e.preventDefault();
     let body = {
       pedido: props.pedido,
     };
 
     if (props.including) {
-      axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
         props.onHide();
       });
     } else {
-      axios.put(`http://localhost:3333/pedidos`, body).then((res) => {
+      axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
         props.onHide();
       });
     }
@@ -94,14 +95,15 @@ function Pedido(props) {
     props.pedido[name] = valor;
   };
 
-  const handleButtonExcluir = () => {
+  const handleButtonExcluir = (e) => {
+    e.preventDefault();
     let body = {
       pedido: props.pedido,
       todosItens: true,
     };
 
     axios
-      .delete(`http://localhost:3333/pedido_item`, {
+      .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedido_item`, {
         data: body,
       })
       .then((res) => {
@@ -110,7 +112,7 @@ function Pedido(props) {
         };
 
         axios
-          .delete(`http://localhost:3333/pedidos`, {
+          .delete(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, {
             data: body,
           })
           .then((res) => {
@@ -119,13 +121,15 @@ function Pedido(props) {
       });
   };
 
-  const handleButtonGerarPDF = async () => {
+  const handleButtonGerarPDF = async (e) => {
+    e.preventDefault();
     const classeImpressao = new Impressao(listaProdutos);
     const documento = await classeImpressao.PreparaDocumento();
     pdfMake.createPdf(documento).open({}, window.open("", "_blank"));
   };
 
-  const handleButtonAdcionarProduto = () => {
+  const handleButtonAdcionarProduto = (e) => {
+    e.preventDefault();
     setPedidoItemSelecionado({
       ped_numero: props.pedido.ped_numero,
       pro_valor: 0,

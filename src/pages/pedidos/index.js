@@ -38,9 +38,8 @@ function App() {
       usu_cpf: user,
     };
 
-    console.log(body);
 
-    axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos/listar`, body).then((res) => {
       setListaPedidos(res.data.message || []);
     });
   };
@@ -53,12 +52,13 @@ function App() {
       usu_cpf: user,
     };
 
-    axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos/listar`, body).then((res) => {
       setListaPedidos(res.data.message || []);
     });
   }, [visibleModal]);
 
-  const openIncludeOrder = () => {
+  const openIncludeOrder = (e) => {
+    e.preventDefault();
     let body = {
       pedido: {
         usu_cpf: user,
@@ -68,7 +68,7 @@ function App() {
       },
     };
 
-    axios.post(`http://localhost:3333/pedidos`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos`, body).then((res) => {
       let body = {
         pesquisa: pesquisa,
         entregue: entregue ? "S" : "N",
@@ -76,7 +76,7 @@ function App() {
         usu_cpf: user,
       };
 
-      axios.post(`http://localhost:3333/pedidos/listar`, body).then((res) => {
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/pedidos/listar`, body).then((res) => {
         setListaPedidos(res.data.message || []);
       });
     });

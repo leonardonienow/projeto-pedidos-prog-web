@@ -17,5 +17,5 @@ ReactDOM.render(
 reportWebVitals();
 
 
-//http://localhost:3333
-//http://localhost:3333https://projeto-pedidos-prog-web-api.vercel.app
+//https://projeto-pedidos-prog-web-api.vercel.app
+//https://projeto-pedidos-prog-web-api.vercel.app

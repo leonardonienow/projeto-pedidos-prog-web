@@ -22,7 +22,7 @@ function Produto(props) {
       pesquisa: "",
     };
 
-    axios.post(`http://localhost:3333/categoria/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/categoria/listar`, body).then((res) => {
       setCategorias(res.data.message || []);
     });
   }, []);
@@ -37,37 +37,40 @@ function Produto(props) {
     props.onHide();
   };
 
-  const handleButtonSalvar = () => {
+  const handleButtonSalvar = (e) => {
+    e.preventDefault();
     let body = {
       produto: props.produto,
     };
 
-    axios.put(`http://localhost:3333/produtos`, body).then((res) => {
+    axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/produtos`, body).then((res) => {
       props.onHide();
     });
 
     AtualizarPagina();
   };
 
-  const handleButtonExcluir = () => {
+  const handleButtonExcluir = (e) => {
+    e.preventDefault();
     let body = {
       produto: props.produto,
     };
 
-    axios.delete(`http://localhost:3333/produtos`, {
+    axios.delete(`https://projeto-pedidos-prog-web-api.vercel.app/produtos`, {
       data: body,
     });
 
     props.onHide();
   };
 
-  const handleButtonEnviarPromocao = () => {
+  const handleButtonEnviarPromocao = (e) => {
+    e.preventDefault();
     let body = {
       usu_ativo: "S",
       pesquisa: "",
     };
 
-    axios.post(`http://localhost:3333/usuario/listar`, body).then((res) => {
+    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/usuario/listar`, body).then((res) => {
       let emails = "";
       res.data.message.forEach((element) => {
         console.log(element.usu_email);
@@ -78,8 +81,8 @@ function Produto(props) {
         email: emails,
         mensagem: `${props.produto.pro_descricao} está em promoção por apenas R$ ${props.produto.pro_valor} aproveite!! =)`,
       };
-      console.log(body);
-      axios.post(`http://localhost:3333/send-email`, body).then((res) => {
+      
+      axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/send-email`, body).then((res) => {
         alert("Promoção enviada com sucesso!");
       });
     });

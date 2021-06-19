@@ -11,7 +11,9 @@ export const BootstrapNavbar = () => {
     useContext(UserContext);
   const history = useHistory();
 
-  const handleLoginClick = () => {
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    
     removeUserAuthenticated();
     history.push("/login");
   };
