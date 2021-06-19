@@ -84,6 +84,8 @@ function Produto(props) {
       
       axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/send-email`, body).then((res) => {
         alert("Promoção enviada com sucesso!");
+      }).catch((e)=> {
+        alert(e);
       });
     });
   };
