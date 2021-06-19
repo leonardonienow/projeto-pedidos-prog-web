@@ -56,6 +56,7 @@ function Produto(props) {
     e.preventDefault();
     let body = {
       usuario: props.usuario,
+      
     };
 
     axios.delete(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, {
