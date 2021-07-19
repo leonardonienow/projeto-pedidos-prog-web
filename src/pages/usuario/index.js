@@ -21,14 +21,13 @@ function Produto(props) {
       cpf: props.usuario.usu_cpf,
     };
 
-    axios.post(`https://projeto-pedidos-prog-web-api.vercel.app/meu-perfil`, body).then((res) => {
-      console.log(res.data)
+    axios.post(`http://localhost:3333/meu-perfil`, body).then((res) => {
+      console.log(res.data);
       setCpfAnterior(
         res.data.message != undefined && res.data.message.length > 0
           ? res.data.message[0].usu_cpf
           : ""
       );
-      console.log(cpfAnterior)
     });
   }, [props.show]);
 
@@ -46,8 +45,22 @@ function Produto(props) {
       usuario: props.usuario,
       cpf_anterior: cpfAnterior,
     };
-    console.log(body)
-    axios.put(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, body).then((res) => {
+    
+
+    axios.put(`http://localhost:3333/usuario`, body).then((res) => {
+      let body = {
+        cpf: props.usuario.usu_cpf,
+      };
+
+      axios.post(`http://localhost:3333/meu-perfil`, body).then((res) => {
+        console.log(res.data);
+        setCpfAnterior(
+          res.data.message != undefined && res.data.message.length > 0
+            ? res.data.message[0].usu_cpf
+            : ""
+        );
+      });
+
       props.onHide();
     });
   };
@@ -56,12 +69,26 @@ function Produto(props) {
     e.preventDefault();
     let body = {
       usuario: props.usuario,
-      
     };
 
-    axios.delete(`https://projeto-pedidos-prog-web-api.vercel.app/usuario`, {
-      data: body,
-    });
+    axios
+      .delete(`http://localhost:3333/usuario`, {
+        data: body,
+      })
+      .then((res) => {
+        let body = {
+          cpf: props.usuario.usu_cpf,
+        };
+
+        axios.post(`http://localhost:3333/meu-perfil`, body).then((res) => {
+          console.log(res.data);
+          setCpfAnterior(
+            res.data.message != undefined && res.data.message.length > 0
+              ? res.data.message[0].usu_cpf
+              : ""
+          );
+        });
+      });
 
     props.onHide();
   };
